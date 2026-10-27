@@ -263,7 +263,7 @@ tailwind.config = {
 <section class="max-w-[1400px] mx-auto px-3 sm:px-6 mt-4 sm:mt-5">
   <h1 class="print-only text-center font-black text-base mb-2" style="color:var(--navy)">الفصل الدراسي الأول</h1>
   <div class="no-print rounded-2xl border border-line bg-white anim flex flex-wrap items-center justify-center gap-2 px-3 py-3" style="animation-delay:.12s">
-    <button id="btnPassed" class="tb-btn active w-full sm:w-auto justify-center" onclick="togglePassed(this)"><i class="fa-solid fa-eye"></i> إظهار الأسابيع المنتهية</button>
+    <button id="btnPassed" class="tb-btn active w-full sm:w-auto justify-center" onclick="togglePassed(this)"><i class="fa-solid fa-eye"></i> إظهار الأسابيع السابقة</button>
   </div>
 </section>
 
@@ -643,7 +643,7 @@ function updateSemesterStatus(){
 }
 
 /* ══════════ CONTROLS ══════════ */
-/* الافتراضي: الأسابيع المنتهية مخفية، والزر يكشفها عند الضغط */
+/* الافتراضي: الأسابيع السابقة مخفية، والزر يكشفها عند الضغط */
 let passedHidden = true;
 function applyPassed(){
   document.querySelectorAll('.wk.is-passed').forEach(el => el.style.display = passedHidden ? 'none' : '');
@@ -651,8 +651,8 @@ function applyPassed(){
   if(!btn) return;
   btn.classList.toggle('active', passedHidden);
   btn.innerHTML = passedHidden
-    ? '<i class="fa-solid fa-eye"></i> إظهار الأسابيع المنتهية'
-    : '<i class="fa-solid fa-eye-slash"></i> إخفاء الأسابيع المنتهية';
+    ? '<i class="fa-solid fa-eye"></i> إظهار الأسابيع السابقة'
+    : '<i class="fa-solid fa-eye-slash"></i> إخفاء الأسابيع السابقة';
 }
 function togglePassed(btn){
   passedHidden = !passedHidden;
@@ -666,7 +666,7 @@ function init(){
   updateWeekStatuses();
   updateBreakStatuses();
   updateSemesterStatus();
-  applyPassed();          // يُطبّق الإخفاء الافتراضي فور تحديد الأسابيع المنتهية
+  applyPassed();          // يُطبّق الإخفاء الافتراضي فور تحديد الأسابيع السابقة
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
 else init();
