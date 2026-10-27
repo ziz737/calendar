@@ -190,10 +190,20 @@ tailwind.config = {
   .day-row.row-extra{ background:#f7f3e8; }
   .day-row.row-extra .cell-day{ color:var(--gold-dk); } .day-row.row-extra .cell-hijri{ color:#a8916a; } .day-row.row-extra .cell-greg{ color:var(--gold-dk); }
   .day-row.row-extra .day-dot{ background:var(--gold); box-shadow:0 0 0 3px rgba(193,180,137,.2); }
-  .day-row.row-today{ background:linear-gradient(90deg,#0da9a6,#3ec3c0); animation:pulse 2s infinite; }
-  .day-row.row-today .cell-day,.day-row.row-today .cell-hijri,.day-row.row-today .cell-greg{ color:#fff; border-color:rgba(255,255,255,.3); }
-  .day-row.row-today .day-dot{ background:#fff; box-shadow:0 0 0 3px rgba(255,255,255,.35); }
-  .today-flag{ font-size:.6rem; background:#fff; color:var(--teal); padding:.05rem .4rem; border-radius:99px; font-weight:900; margin-inline-start:.3rem; }
+  /* اليوم الحالي: خلفية ثابتة بلون الفصل، وكلمة (اليوم) هي التي تنبض */
+  .day-row.row-today{ background-color:#0da9a6; color:#fff; }
+  .day-row.row-today .cell-day,.day-row.row-today .cell-hijri,.day-row.row-today .cell-greg{ color:inherit; border-color:rgba(255,255,255,.35); }
+  .day-row.row-today .day-dot{ background:currentColor; box-shadow:0 0 0 3px rgba(255,255,255,.28); }
+  .today-flag{ display:inline-block; font-size:.66rem; font-weight:900; line-height:1.5; margin-inline-start:.45rem;
+               padding:.1rem .6rem; border-radius:99px; background:#fff; color:#0b8f8c;
+               animation:flagPulse 1.9s ease-in-out infinite; }
+  @keyframes flagPulse{
+    0%, 100%{ background-color:#ffffff; color:#0b8f8c; box-shadow:0 0 0 0 rgba(255,255,255,.6); transform:scale(1); }
+    50%     { background-color:#07a869; color:#ffffff; box-shadow:0 0 0 7px rgba(255,255,255,0); transform:scale(1.07); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .today-flag{ animation:none; background:#fff; color:#0b8f8c; }
+  }
   @keyframes pulse{ 0%,100%{opacity:1} 50%{opacity:.82} }
 
   .wk.fade-dim{ opacity:.3; filter:grayscale(.65); }
@@ -242,6 +252,7 @@ tailwind.config = {
     .wk.fade-dim{ opacity:1 !important; filter:none !important; }
     .wk.is-passed{ display:block !important; opacity:1 !important; }
     body.inst-banner-on{ padding-bottom:0 !important; }
+    .today-flag{ animation:none !important; background:#fff !important; color:#0b8f8c !important; }
     main{ display:block !important; }
     .wk, .brk{ margin-bottom:10px; }
   }
@@ -581,7 +592,7 @@ function updateWeekStatuses(){
         if(dd===tDay && mm===tMonth && yy===tYear){
           row.classList.add('row-today');
           const cell = row.querySelector('.cell-day');
-          if(cell && !cell.querySelector('.today-flag')) cell.insertAdjacentHTML('beforeend','<span class="today-flag">اليوم</span>');
+          if(cell && !cell.querySelector('.today-flag')) cell.insertAdjacentHTML('beforeend','<span class="today-flag">اليـــــوم</span>');
         }
       });
     } else if(today < start){
