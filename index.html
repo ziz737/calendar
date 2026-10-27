@@ -80,23 +80,53 @@ tailwind.config = {
   .tb-scroll::-webkit-scrollbar{ display:none; }
 
   /* ===== PWA install ===== */
-  .tb-btn.gold{ background:linear-gradient(135deg,#c1b489,#d8cdb0); color:var(--navy-dk); border-color:#b7a97e; }
-  .tb-btn.gold:hover{ background:linear-gradient(135deg,#b7a97e,#c1b489); color:var(--navy-dk); border-color:var(--gold-dk); }
   .is-hidden{ display:none !important; }
 
+  /* لافتة التثبيت السفلية */
+  .inst-banner{ position:fixed; z-index:85; inset-inline:.75rem; bottom:calc(.75rem + env(safe-area-inset-bottom));
+    max-width:26rem; margin-inline:auto; display:flex; align-items:center; gap:.65rem; padding:.65rem .7rem;
+    border-radius:1rem; color:#fff; background:linear-gradient(135deg,#15445a,#0f3647);
+    box-shadow:0 18px 40px -14px rgba(14,47,63,.6), inset 0 0 0 1px rgba(255,255,255,.08);
+    animation:bannerIn .3s ease both; }
+  @keyframes bannerIn{ from{ transform:translateY(22px); opacity:0 } to{ transform:none; opacity:1 } }
+  .inst-banner img{ width:42px; height:42px; border-radius:.7rem; flex:none; }
+  .inst-banner .txt{ flex:1; min-width:0; }
+  .inst-banner .txt strong{ display:block; font-size:.78rem; font-weight:900; }
+  .inst-banner .txt span{ display:block; font-size:.64rem; font-weight:700; color:rgba(255,255,255,.6); margin-top:.1rem; }
+  .inst-banner .go{ flex:none; font-family:inherit; font-size:.74rem; font-weight:900; color:var(--navy-dk);
+    background:linear-gradient(135deg,#c1b489,#d8cdb0); border:none; border-radius:.7rem; padding:.5rem .85rem; cursor:pointer; }
+  .inst-banner .x{ flex:none; width:1.7rem; height:1.7rem; border-radius:.5rem; background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.14); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:.75rem; }
+  body.inst-banner-on{ padding-bottom:5.75rem; }
+
+  /* نافذة تعليمات التثبيت */
   .inst-modal{ position:fixed; inset:0; z-index:90; display:none; align-items:flex-end; justify-content:center; }
   .inst-modal.open{ display:flex; }
   .inst-backdrop{ position:absolute; inset:0; background:rgba(14,47,63,.62); }
   .inst-card{ position:relative; width:100%; max-width:27rem; max-height:92vh; overflow:auto; background:#fff;
               border-radius:1.25rem 1.25rem 0 0; animation:sheetUp .26s ease both; }
   @keyframes sheetUp{ from{ transform:translateY(16px); opacity:0; } to{ transform:none; opacity:1; } }
-  .inst-step{ display:flex; gap:.65rem; align-items:flex-start; padding:.62rem 1rem; border-bottom:1px dashed #e0e9ee;
-              font-size:.78rem; font-weight:700; line-height:1.75; color:var(--ink); }
+  .inst-x{ position:absolute; top:.6rem; inset-inline-end:.6rem; width:1.9rem; height:1.9rem; border-radius:.55rem;
+    background:#f1f5f7; border:1px solid var(--line); color:var(--navy); cursor:pointer;
+    display:flex; align-items:center; justify-content:center; z-index:2; }
+  .inst-head{ text-align:center; padding:1.15rem 1rem .85rem; background:linear-gradient(180deg,#f4f8fa,#fff); border-bottom:1px solid var(--line); }
+  .inst-head img{ display:block; margin:0 auto .55rem; border-radius:1rem; box-shadow:0 10px 22px -12px rgba(21,68,90,.55); }
+  .inst-head h3{ font-size:.95rem; font-weight:900; color:var(--navy); }
+  .inst-head p{ font-size:.7rem; font-weight:700; color:var(--muted); margin-top:.2rem; }
+  .inst-step{ display:flex; gap:.7rem; align-items:flex-start; padding:.7rem 1rem; border-bottom:1px dashed #e6edf1; }
   .inst-step:last-child{ border-bottom:none; }
-  .inst-step b{ color:var(--navy); font-weight:900; }
-  .inst-num{ width:1.45rem; height:1.45rem; border-radius:999px; background:var(--navy); color:#fff; font-size:.7rem;
-             font-weight:900; display:flex; align-items:center; justify-content:center; flex:none; margin-top:.18rem; }
-  .inst-foot{ padding:.85rem 1rem calc(.85rem + env(safe-area-inset-bottom)); border-top:1px solid var(--line); background:var(--bg); }
+  .inst-num{ width:1.7rem; height:1.7rem; border-radius:999px; background:var(--navy); color:#fff; font-size:.78rem;
+    font-weight:900; display:flex; align-items:center; justify-content:center; flex:none; }
+  .inst-step .txt{ display:flex; flex-direction:column; gap:.12rem; }
+  .inst-step .txt b{ font-size:.8rem; font-weight:900; color:var(--ink); }
+  .inst-step .txt span{ font-size:.72rem; font-weight:600; color:var(--muted); line-height:1.65; }
+  .inst-foot{ display:flex; flex-direction:column; gap:.5rem; padding:.85rem 1rem calc(.9rem + env(safe-area-inset-bottom));
+              border-top:1px solid var(--line); background:#fff; }
+  .inst-btn{ font-family:inherit; min-height:46px; border-radius:.85rem; font-weight:900; font-size:.85rem; cursor:pointer; border:none; }
+  .inst-btn.primary{ color:#fff; background:linear-gradient(135deg,var(--green-dk),var(--green)); }
+  .inst-btn.ghost{ color:var(--navy); background:#fff; border:1px solid var(--line); }
+  .inst-warn{ display:flex; gap:.5rem; align-items:flex-start; padding:.7rem 1rem; background:#fff7e6; color:#8a6d3b;
+              font-size:.72rem; font-weight:700; border-bottom:1px solid #f0e3c3; }
   @media (min-width:640px){
     .inst-modal{ align-items:center; padding:1rem; }
     .inst-card{ border-radius:1.25rem; box-shadow:0 26px 70px -26px rgba(14,47,63,.7); }
@@ -106,6 +136,9 @@ tailwind.config = {
   /* ===== Stat cards ===== */
   .stat{ background:#fff; border:1px solid var(--line); border-radius:1.1rem; padding:1rem; display:flex; align-items:center; gap:.85rem; }
   .stat .ico{ width:48px;height:48px;border-radius:.9rem; display:flex;align-items:center;justify-content:center; font-size:1.25rem; flex:none; }
+  .sem2-badge{ display:inline-flex; align-items:center; gap:.35rem; flex:none; margin-top:0; font-size:.66rem; font-weight:900;
+    padding:.3rem .7rem; border-radius:99px; background:rgba(193,180,137,.16); color:var(--gold); border:1px solid rgba(193,180,137,.3); }
+  .sem2-badge.done{ background:rgba(7,168,105,.18); color:#7ee2b0; border-color:rgba(7,168,105,.35); }
 
   /* ===== Week card ===== */
   .wk{ background:#fff; border:1px solid var(--line); border-radius:1.15rem; overflow:hidden;
@@ -162,10 +195,24 @@ tailwind.config = {
   .brk{ background:linear-gradient(150deg,#15445a,#0e2f3f); color:#fff; border-radius:1.15rem; overflow:hidden; }
   .brk-head{ display:flex; align-items:center; gap:.75rem; padding:.9rem 1rem; border-bottom:1px solid rgba(255,255,255,.1); }
   .brk .ico{ width:44px;height:44px;border-radius:.9rem; display:flex;align-items:center;justify-content:center; font-size:1.15rem; flex:none; background:rgba(255,255,255,.1); }
-  .brk-line{ display:flex; justify-content:space-between; align-items:center; gap:.5rem; padding:.6rem 1rem; border-bottom:1px solid rgba(255,255,255,.07); font-size:.78rem; font-weight:700; }
+  .brk-line{ display:flex; flex-direction:column; gap:.2rem; padding:.55rem 1rem; border-bottom:1px solid rgba(255,255,255,.07); }
   .brk-line:last-child{ border-bottom:none; }
-  .brk-line strong{ color:var(--gold); font-weight:900; }
+  .brk-line .lbl{ display:flex; align-items:center; gap:.4rem; font-size:.7rem; font-weight:700; color:rgba(255,255,255,.62); }
+  .brk-line .dates{ display:flex; flex-wrap:wrap; align-items:baseline; gap:.3rem; font-size:.79rem; line-height:1.6; }
+  .brk-line .dates b{ color:var(--gold); font-weight:900; }
+  .brk-line .dates em{ font-style:normal; color:rgba(255,255,255,.28); }
+  .brk-line .dates > span{ color:rgba(255,255,255,.82); font-weight:700; }
   .brk-line.ret{ background:rgba(255,255,255,.05); }
+  .brk-badge{ font-size:.64rem; font-weight:900; padding:.28rem .6rem; border-radius:99px; white-space:nowrap; flex:none;
+              background:rgba(255,255,255,.1); color:var(--gold); border:1px solid rgba(255,255,255,.16); }
+  .brk-badge.now{ background:linear-gradient(135deg,var(--green-dk),var(--green)); color:#fff; border-color:transparent;
+                  animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite; }
+  .brk-badge.done{ background:rgba(255,255,255,.06); color:rgba(255,255,255,.45); border-color:rgba(255,255,255,.1); }
+  .brk-total{ display:flex; align-items:center; justify-content:space-between; gap:.6rem; padding:.6rem 1rem;
+              background:rgba(193,180,137,.1); border-top:1px solid rgba(255,255,255,.12); }
+  .brk-total span{ font-size:.7rem; font-weight:700; color:rgba(255,255,255,.72); }
+  .brk-total span em{ display:block; font-style:normal; font-size:.62rem; font-weight:600; color:rgba(255,255,255,.45); margin-top:.08rem; }
+  .brk-total strong{ font-size:.95rem; font-weight:900; color:var(--gold); white-space:nowrap; }
 
   /* ===== Entrance ===== */
   @keyframes up{ from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:none;} }
@@ -183,6 +230,7 @@ tailwind.config = {
     .wk, .brk, .stat{ box-shadow:none !important; transform:none !important; break-inside:avoid; }
     .wk.fade-dim{ opacity:1 !important; filter:none !important; }
     .wk.is-passed{ display:block !important; opacity:1 !important; }
+    body.inst-banner-on{ padding-bottom:0 !important; }
     main{ display:block !important; }
     .wk, .brk{ margin-bottom:10px; }
   }
@@ -193,7 +241,7 @@ tailwind.config = {
 <!-- ═══ Sticky toolbar ═══ -->
 <div class="tbar no-print sticky top-0 z-40">
   <div class="max-w-[1400px] mx-auto px-3 sm:px-6 py-2.5">
-    <h2 class="text-sm sm:text-base font-black text-center whitespace-nowrap" style="color:var(--navy)">التقويم الدراسي لعام 1448هـ</h2>
+    <h2 class="text-lg sm:text-xl font-black text-center whitespace-nowrap tracking-tight" style="color:var(--navy)">التقويم الدراسي لعام 1448هـ</h2>
   </div>
 </div>
 
@@ -206,7 +254,6 @@ tailwind.config = {
       </div>
     </div>
     <div class="no-print flex flex-wrap items-center justify-center gap-2 px-3 py-3">
-      <button id="btnInstall" class="tb-btn gold w-full sm:w-auto justify-center" onclick="installApp()" title="تثبيت التطبيق على جهازك"><i class="fa-solid fa-download"></i> تثبيت التطبيق</button>
       <button id="btnPassed" class="tb-btn active w-full sm:w-auto justify-center" onclick="togglePassed(this)"><i class="fa-solid fa-eye"></i> إظهار الأسابيع المنتهية</button>
     </div>
   </div>
@@ -228,9 +275,12 @@ tailwind.config = {
         <div class="rounded-xl p-3 flex flex-col gap-1" style="background:var(--tea-100)"><span class="text-[11px] font-bold" style="color:#0b8f8c">أيام الدراسة</span><span class="text-lg font-black" style="color:#0b8f8c">93</span></div>
         <div class="rounded-xl p-3 flex flex-col gap-1" style="background:var(--gld-100)"><span class="text-[11px] font-bold" style="color:var(--gold-dk)">عدد الإجازات</span><span class="text-lg font-black" style="color:var(--gold-dk)">3</span></div>
         <div class="rounded-xl p-3 flex flex-col gap-1" style="background:var(--gld-100)"><span class="text-[11px] font-bold" style="color:var(--gold-dk)">أيام الإجازات</span><span class="text-lg font-black" style="color:var(--gold-dk)">20</span></div>
-        <div class="col-span-2 rounded-xl p-3 flex items-center justify-between text-white" style="background:var(--navy-dk)">
-          <span class="text-[11px] font-bold">بداية الفصل الدراسي الثاني</span>
-          <span class="text-sm font-black" style="color:var(--gold)">9 / 8 / 1448 هـ</span>
+        <div class="col-span-2 rounded-xl p-3 text-white" style="background:var(--navy-dk)" data-sem2="2027-01-17">
+          <span class="text-[11px] font-bold block text-center">بداية الفصل الدراسي الثاني</span>
+          <div class="flex flex-wrap items-center justify-between gap-x-2 gap-y-1 mt-1.5">
+            <span class="text-sm font-black whitespace-nowrap" style="color:var(--gold)">9/8/1448 <span class="text-[10px] font-bold" style="color:rgba(255,255,255,.55)">— <span dir="ltr">17/1/2027</span></span></span>
+            <span id="sem2Badge" class="sem2-badge">…</span>
+          </div>
         </div>
       </div>
     </div>
@@ -239,31 +289,39 @@ tailwind.config = {
       <div class="absolute inset-0" style="background:linear-gradient(140deg,var(--navy),var(--navy-dk))"></div>
       <div class="absolute -bottom-14 -left-10 w-52 h-52 rounded-full" style="background:rgba(193,180,137,.16);filter:blur(40px)"></div>
       <div class="relative p-6 text-white text-center flex flex-col justify-center h-full">
-        <div class="w-14 h-14 mx-auto rounded-2xl chip flex items-center justify-center text-xl mb-3"><i class="fa-solid fa-pen-nib" style="color:var(--gold)"></i></div>
-        <h4 class="text-sm font-bold text-tea-500">إعداد وتصميم</h4>
-        <p class="text-xl sm:text-2xl font-black mt-1" style="color:var(--gold)">الأستاذ عبدالعزيز الحودي</p>
+        <h4 class="text-[11px] font-bold text-tea-500">إعداد وتصميم</h4>
+        <p class="text-[11px] font-black mt-1" style="color:var(--gold)">الأستاذ عبدالعزيز الحودي</p>
+        <a href="tel:+966553999737" dir="ltr" class="text-[11px] font-bold mt-1 inline-block" style="color:rgba(255,255,255,.72)">0553999737</a>
         <p class="text-[11px] font-bold text-white/55 mt-3">جميع الحقوق محفوظة © 1448 هـ — نسخة بتصميم عصري متوافق مع الهوية البصرية لوزارة التعليم</p>
       </div>
     </div>
   </div>
 </main>
 
-<!-- ═══ Install sheet (Android / iOS / Desktop) ═══ -->
+<!-- ═══ Install banner ═══ -->
+<div id="instBanner" class="inst-banner no-print is-hidden" role="region" aria-label="تثبيت التطبيق">
+  <img src="./icon-192.png" alt="">
+  <div class="txt">
+    <strong>تثبيت التقويم الدراسي</strong>
+    <span>أضفه لشاشتك للوصول السريع وبدون إنترنت</span>
+  </div>
+  <button type="button" class="go" onclick="installApp()">تثبيت</button>
+  <button type="button" class="x" onclick="dismissBanner()" aria-label="لاحقًا"><i class="fa-solid fa-xmark"></i></button>
+</div>
+
+<!-- ═══ Install instructions sheet (Android / iOS / Desktop) ═══ -->
 <div id="instModal" class="inst-modal no-print" role="dialog" aria-modal="true" aria-labelledby="instTitle">
   <div class="inst-backdrop" data-close-install></div>
-  <div class="inst-card">
-    <div style="background:linear-gradient(135deg,var(--navy),var(--navy-dk));color:#fff;display:flex;align-items:center;gap:.65rem;padding:.8rem .9rem">
-      <img src="./icon-192.png" alt="" width="36" height="36" style="border-radius:.7rem;flex:none">
-      <div style="flex:1;min-width:0">
-        <h3 id="instTitle" style="font-weight:900;font-size:.9rem;margin:0">تثبيت «التقويم الدراسي»</h3>
-        <p id="instSub" style="font-size:.68rem;font-weight:700;color:rgba(255,255,255,.62);margin:.12rem 0 0">يعمل بدون إنترنت بعد التثبيت</p>
-      </div>
-      <button type="button" data-close-install aria-label="إغلاق" style="width:2rem;height:2rem;border-radius:.6rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+  <div class="inst-card" role="document">
+    <button type="button" class="inst-x" data-close-install aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+
+    <div class="inst-head">
+      <img src="./icon-192.png" alt="" width="56" height="56">
+      <h3 id="instTitle">تثبيت «التقويم الدراسي»</h3>
+      <p id="instSub">أضفه إلى شاشتك للوصول السريع</p>
     </div>
 
-    <div id="instWarn" class="is-hidden" style="display:flex;gap:.5rem;align-items:flex-start;padding:.7rem 1rem;background:#fff7e6;color:#8a6d3b;font-size:.72rem;font-weight:700;border-bottom:1px solid #f0e3c3">
+    <div id="instWarn" class="inst-warn is-hidden">
       <i class="fa-solid fa-triangle-exclamation" style="margin-top:.15rem"></i>
       <span>التثبيت متاح عند فتح التطبيق عبر HTTPS أو localhost فقط، وليس عند فتح الملف من الجهاز مباشرة.</span>
     </div>
@@ -271,10 +329,10 @@ tailwind.config = {
     <div id="instSteps"></div>
 
     <div class="inst-foot">
-      <button id="instPrimary" type="button" class="is-hidden" style="width:100%;min-height:46px;border-radius:.85rem;border:none;font-family:inherit;font-weight:900;font-size:.85rem;color:#fff;background:linear-gradient(135deg,var(--green-dk),var(--green));cursor:pointer">
+      <button id="instPrimary" type="button" class="inst-btn primary is-hidden" onclick="installNow()">
         <i class="fa-solid fa-download"></i> تثبيت الآن
       </button>
-      <p id="instHint" style="font-size:.7rem;font-weight:700;color:var(--muted);text-align:center;margin:0">أكمل الخطوات أعلاه لإضافة التطبيق إلى جهازك.</p>
+      <button id="instDone" type="button" class="inst-btn ghost" data-close-install>حسنًا، فهمت</button>
     </div>
   </div>
 </div>
@@ -282,6 +340,7 @@ tailwind.config = {
 <script>
 /* ══════════ DATA ══════════ */
 const C = { navy:'#15445a', green:'#07a869', teal:'#0da9a6', blue:'#3d7eb9', gold:'#c1b489' };
+const GREG_M = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
 
 const WEEKS = [
   { kind:'special', icon:'chalkboard-user', title:'عودة المعلمين والمعلمات', sub:'المرحلة التمهيدية للفصل', hijri:'ربيع الأول 1448 هـ', greg:'August 2026',
@@ -316,8 +375,11 @@ const WEEKS = [
   { kind:'week', n:13, title:'الأسبوع الثالث عشر', hijri:'جمادى الثاني 1448 هـ', greg:'November 2026', start:'2026-11-15', end:'2026-11-19', days:[
     ['الأحد','6 / 5','15/11'],['الإثنين','6 / 6','16/11'],['الثلاثاء','6 / 7','17/11'],['الأربعاء','6 / 8','18/11'],['الخميس','6 / 9','19/11'] ]},
 
-  { kind:'break', icon:'cloud-sun', title:'إجازة الخريف', sub:'استراحة خلال الفصل', lines:[
-    ['تبدأ إجازة الخريف','الجمعة 6/10 — 20/11','start'],['تنتهي الإجازة','السبت 6/18 — 28/11','stop'],['العودة للدراسة','الأثنين 6/20 — 30/11','ret'] ]},
+  { kind:'break', icon:'cloud-sun', title:'إجازة الخريف', sub:'استراحة خلال الفصل',
+    start:'2026-11-20', end:'2026-11-28', ret:'2026-11-30', lines:[
+      { label:'بداية إجازة الخريف', dow:'الجمعة',  h:[6,10], g:[2026,11,20], type:'start' },
+      { label:'العودة للدراسة',   dow:'الإثنين', h:[6,20], g:[2026,11,30], type:'ret'   }
+    ]},
 
   { kind:'week', n:14, title:'الأسبوع الرابع عشر', sub:'يحتوي إجازة إضافية', subCls:'gold', hijri:'جمادى الثاني 1448 هـ', greg:'Nov / Dec 2026', start:'2026-11-29', end:'2026-12-03', days:[
     ['الأحد','6 / 19','29/11','extra','إجازة إضافية'],['الإثنين','6 / 20','30/11'],['الثلاثاء','6 / 21','1/12'],['الأربعاء','6 / 22','2/12'],['الخميس','6 / 23','3/12'] ]},
@@ -333,8 +395,11 @@ const WEEKS = [
     ['الأحد','7 / 25','3/1','exam','اختبارات'],['الإثنين','7 / 26','4/1','exam','نهاية'],['الثلاثاء','7 / 27','5/1','exam','الفصل'],
     ['الأربعاء','7 / 28','6/1','exam','الدراسي'],['الخميس','7 / 29','7/1','extra','إجازة إضافية'] ]},
 
-  { kind:'break', icon:'house-chimney-window', title:'إجازة منتصف العام', sub:'استراحة ما بين الفصلين', lines:[
-    ['تبدأ الإجازة','الجمعة 7/30 — 8/1','start'],['تنتهي الإجازة','السبت 8/8 — 16/1','stop'],['العودة للدراسة','الأحد 8/9 — 17/1','ret'] ]}
+  { kind:'break', icon:'house-chimney-window', title:'إجازة منتصف العام', sub:'استراحة ما بين الفصلين',
+    start:'2027-01-08', end:'2027-01-16', ret:'2027-01-17', lines:[
+      { label:'تبدأ الإجازة',    dow:'الجمعة', h:[7,30], g:[2027,1,8],  type:'start' },
+      { label:'العودة للدراسة',  dow:'الأحد',  h:[8,9],  g:[2027,1,17], type:'ret'   }
+    ]}
 ];
 
 /* ══════════ RENDER ══════════ */
@@ -400,16 +465,30 @@ function specialCard(w, delay){
 
 function breakCard(w, delay){
   const lines = w.lines.map(l => {
-    const ico = l[2]==='start' ? '<i class="fa-solid fa-play" style="color:#2cbd82"></i>'
-              : l[2]==='stop'  ? '<i class="fa-solid fa-stop" style="color:#e8836b"></i>'
+    const ico = l.type==='start' ? '<i class="fa-solid fa-play" style="color:#2cbd82"></i>'
+              : l.type==='stop'  ? '<i class="fa-solid fa-stop" style="color:#e8836b"></i>'
               : '<i class="fa-solid fa-rotate-left" style="color:#c1b489"></i>';
-    return `<div class="brk-line ${l[2]==='ret'?'ret':''}"><span>${ico} ${esc(l[0])}</span><strong>${esc(l[1])}</strong></div>`;
+    const hijri = `${esc(l.dow)} <span dir="ltr">${l.h[1]}/${l.h[0]}/1448</span>`;
+    const greg  = `<span dir="ltr">${l.g[2]}/${l.g[1]}/${l.g[0]}</span>`;
+    return `<div class="brk-line ${l.type==='ret'?'ret':''}">
+      <span class="lbl">${ico} ${esc(l.label)}</span>
+      <span class="dates"><b>${hijri}</b><em>—</em>${greg}</span>
+    </div>`;
   }).join('');
-  return `<article class="brk anim" style="animation-delay:${delay}s">
+
+  // مجموع أيام الإجازة من البداية إلى العودة
+  const totalDays = w.ret ? Math.round((new Date(w.ret) - new Date(w.start)) / 86400000) : 0;
+
+  return `<article class="brk anim" data-start="${w.start}" data-end="${w.end}" data-ret="${w.ret || w.end}" style="animation-delay:${delay}s">
     <div class="brk-head">
       <div class="ico" style="color:#c1b489"><i class="fa-solid fa-${w.icon}"></i></div>
-      <div><h3 class="font-black text-base">${esc(w.title)}</h3><p class="text-[11px] font-bold text-white/55">${esc(w.sub)}</p></div>
+      <div style="flex:1;min-width:0"><h3 class="font-black text-base">${esc(w.title)}</h3><p class="text-[11px] font-bold text-white/55">${esc(w.sub)}</p></div>
+      <span class="brk-badge break-badge">…</span>
     </div>${lines}
+    <div class="brk-total">
+      <span>مجموع أيام الإجازة<em>من البداية إلى العودة</em></span>
+      <strong>${dayCountNom(totalDays)}</strong>
+    </div>
   </article>`;
 }
 
@@ -427,7 +506,6 @@ function render(){
 
 /* ══════════ LIVE DATE ══════════ */
 const AR_DAYS = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-const GREG_M = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
 
 function updateHeader(){
   const now = new Date();
@@ -446,6 +524,20 @@ function updateHeader(){
 }
 
 /* ══════════ STATUS ══════════ */
+/* صياغة عدد الأيام بالعربية */
+function dayCountNom(n){          // مرفوع: بقي يومان / بقي 24 يومًا
+  if(n === 1) return 'يوم واحد';
+  if(n === 2) return 'يومان';
+  if(n <= 10) return `${n} أيام`;
+  return `${n} يومًا`;
+}
+function dayCountGen(n){          // مجرور: بعد يومين / بعد 24 يومًا
+  if(n === 1) return 'يوم واحد';
+  if(n === 2) return 'يومين';
+  if(n <= 10) return `${n} أيام`;
+  return `${n} يومًا`;
+}
+
 function updateWeekStatuses(){
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -476,7 +568,7 @@ function updateWeekStatuses(){
         }
       });
     } else if(today < start){
-      badge.textContent = `بقي ${diff} يوم`;
+      badge.textContent = `بقي ${dayCountNom(diff)}`;
       badge.className = 'wk-badge b-wait week-badge';
     } else {
       badge.textContent = 'انتهى';
@@ -484,6 +576,53 @@ function updateWeekStatuses(){
       card.classList.add('is-passed');
     }
   });
+}
+
+/* عدّاد الأيام المتبقية لبطاقات الإجازات */
+function updateBreakStatuses(){
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  document.querySelectorAll('.brk[data-start][data-end]').forEach(card => {
+    const badge = card.querySelector('.break-badge');
+    if(!badge) return;
+    const [sy,sm,sd] = card.dataset.start.split('-').map(Number);
+    const [ey,em,ed] = (card.dataset.ret || card.dataset.end).split('-').map(Number);
+    const start = new Date(sy,sm-1,sd), back = new Date(ey,em-1,ed);   // back = يوم العودة
+
+    if(today < start){                              // قبل الإجازة
+      const d = Math.ceil((start - today)/86400000);
+      badge.textContent = d === 1 ? 'تبدأ غدًا' : `تبدأ بعد ${dayCountGen(d)}`;
+      badge.className = 'brk-badge break-badge';
+    } else if(today < back){                        // داخل الإجازة (حتى العودة)
+      badge.textContent = `بقي ${dayCountNom(Math.ceil((back - today)/86400000))}`;
+      badge.className = 'brk-badge break-badge now';
+    } else {                                        // انتهت
+      badge.textContent = 'انتهت';
+      badge.className = 'brk-badge break-badge done';
+    }
+  });
+}
+
+/* عدّاد الأيام المتبقية حتى بداية الفصل الدراسي الثاني */
+function updateSemesterStatus(){
+  const badge = document.getElementById('sem2Badge');
+  if(!badge) return;
+  const holder = badge.closest('[data-sem2]');
+  if(!holder) return;
+  const [y,m,d] = holder.dataset.sem2.split('-').map(Number);
+  const start = new Date(y, m-1, d);
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const diff = Math.ceil((start - today)/86400000);
+
+  if(diff > 0){
+    badge.textContent = `بقي ${dayCountNom(diff)}`;
+    badge.className = 'sem2-badge';
+  } else {
+    badge.textContent = 'بدأ الفصل الدراسي الثاني';
+    badge.className = 'sem2-badge done';
+  }
 }
 
 /* ══════════ CONTROLS ══════════ */
@@ -508,6 +647,8 @@ render();
 function init(){
   updateHeader();
   updateWeekStatuses();
+  updateBreakStatuses();
+  updateSemesterStatus();
   applyPassed();          // يُطبّق الإخفاء الافتراضي فور تحديد الأسابيع المنتهية
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
@@ -515,36 +656,26 @@ else init();
 </script>
 <script>
 /* ══════════ PWA INSTALL — أندرويد / آيفون / كمبيوتر ══════════ */
-let deferredInstall = null;   // حدث التثبيت الأصلي (Chromium: أندرويد + كمبيوتر)
+let deferredInstall = null;               // حدث التثبيت الأصلي (Chromium)
+const INSTALL_SNOOZE_KEY = 'tas_install_snooze_at';
+const INSTALL_SNOOZE_DAYS = 7;
 
 const INSTALL_GUIDE = {
-  android: {
-    title: 'التثبيت على أندرويد',
-    steps: [
-      'افتح هذه الصفحة في <b>Google Chrome</b> أو <b>Microsoft Edge</b>.',
-      'اضغط قائمة المتصفح <b>⋮</b> أعلى يسار الشاشة.',
-      'اختر <b>«تثبيت التطبيق»</b> أو <b>«إضافة إلى الشاشة الرئيسية»</b>.',
-      'أكّد <b>«تثبيت»</b>؛ ستظهر أيقونة التطبيق على شاشتك الرئيسية وتعمل بدون إنترنت.'
-    ]
-  },
-  ios: {
-    title: 'التثبيت على الآيفون / الآيباد',
-    steps: [
-      'افتح هذه الصفحة في متصفح <b>Safari</b> (التثبيت لا يتم من متصفحات أخرى على iOS).',
-      'اضغط زر المشاركة <i class="fa-solid fa-arrow-up-from-bracket"></i> في شريط الأدوات أسفل الشاشة.',
-      'اختر <b>«إضافة إلى الشاشة الرئيسية»</b> <i class="fa-solid fa-square-plus"></i>.',
-      'اضغط <b>«إضافة»</b> أعلى الشاشة؛ يصبح التطبيق أيقونة مستقلة تعمل بدون إنترنت.'
-    ]
-  },
-  desktop: {
-    title: 'التثبيت على الكمبيوتر',
-    steps: [
-      'افتح هذه الصفحة في <b>Chrome</b> أو <b>Edge</b>.',
-      'اضغط أيقونة التثبيت <i class="fa-solid fa-download"></i> في يمين شريط العنوان.',
-      'أو من قائمة <b>⋮</b> اختر <b>«تثبيت التقويم الدراسي»</b>.',
-      'على <b>Safari (Mac)</b>: من قائمة <b>File</b> اختر <b>Add to Dock</b>.'
-    ]
-  }
+  android: { name:'أندرويد', steps:[
+    ['افتح قائمة المتصفح ⋮', 'من أعلى الشاشة في Chrome أو Edge.'],
+    ['اختر «تثبيت التطبيق»', 'أو «إضافة إلى الشاشة الرئيسية» إن ظهر الخيار.'],
+    ['أكّد «تثبيت»', 'تظهر أيقونة التطبيق على شاشتك وتعمل بدون إنترنت.']
+  ]},
+  ios: { name:'الآيفون / الآيباد', steps:[
+    ['اضغط زر المشاركة', 'الزر أسفل الشاشة في متصفح Safari.'],
+    ['اختر «إضافة إلى الشاشة الرئيسية»', 'اسحب القائمة لأسفل حتى تجدها.'],
+    ['اضغط «إضافة»', 'في الزاوية العلوية؛ يصبح التطبيق أيقونة مستقلة.']
+  ]},
+  desktop: { name:'الكمبيوتر', steps:[
+    ['اضغط أيقونة التثبيت', 'في يمين شريط عنوان Chrome أو Edge.'],
+    ['أو من قائمة ⋮', 'اختر «تثبيت التقويم الدراسي».'],
+    ['Safari على Mac', 'من قائمة File اختر Add to Dock.']
+  ]}
 };
 
 function installPlatform(){
@@ -563,35 +694,63 @@ function isInstalledMode(){
   return window.navigator.standalone === true;   // iOS
 }
 
-function refreshInstallBtn(){
-  const btn = document.getElementById('btnInstall');
-  if(btn) btn.classList.toggle('is-hidden', isInstalledMode());
+function syncInstalledState(){
+  if(isInstalledMode()) hideInstallBanner();
 }
 
 function markInstalled(){
   closeInstall();
-  const btn = document.getElementById('btnInstall');
-  if(btn) btn.classList.add('is-hidden');
+  hideInstallBanner();
+  try{ localStorage.removeItem(INSTALL_SNOOZE_KEY); }catch(e){}
 }
 
+/* ── لافتة التثبيت ── */
+function bannerAllowed(){
+  if(isInstalledMode()) return false;
+  try{
+    const t = Number(localStorage.getItem(INSTALL_SNOOZE_KEY) || 0);
+    return !t || (Date.now() - t) > INSTALL_SNOOZE_DAYS * 86400000;
+  }catch(e){ return true; }
+}
+
+function showInstallBanner(){
+  if(!bannerAllowed()) return;
+  const b = document.getElementById('instBanner');
+  if(!b) return;
+  b.classList.remove('is-hidden');
+  document.body.classList.add('inst-banner-on');
+}
+
+function hideInstallBanner(){
+  const b = document.getElementById('instBanner');
+  if(b) b.classList.add('is-hidden');
+  document.body.classList.remove('inst-banner-on');
+}
+
+function dismissBanner(){
+  hideInstallBanner();
+  try{ localStorage.setItem(INSTALL_SNOOZE_KEY, String(Date.now())); }catch(e){}
+}
+
+/* ── نافذة الخطوات ── */
 function renderInstallGuide(){
   const g = INSTALL_GUIDE[installPlatform()];
-  document.getElementById('instSub').textContent = g.title;
-  document.getElementById('instSteps').innerHTML =
-    g.steps.map((s,i) => `<div class="inst-step"><span class="inst-num">${i+1}</span><span>${s}</span></div>`).join('');
+  document.getElementById('instSub').textContent = 'التثبيت على ' + g.name;
+  document.getElementById('instSteps').innerHTML = g.steps.map(([t,d],i) =>
+    `<div class="inst-step"><span class="inst-num">${i+1}</span><div class="txt"><b>${t}</b><span>${d}</span></div></div>`
+  ).join('');
 
   // تنبيه عند فتح الملف مباشرة أو عبر HTTP (شرطا عدم توفر التثبيت)
   const secure = location.protocol === 'https:' ||
                  location.hostname === 'localhost' || location.hostname === '127.0.0.1';
   document.getElementById('instWarn').classList.toggle('is-hidden', secure);
 
-  const hasPrompt = !!deferredInstall;
-  document.getElementById('instPrimary').classList.toggle('is-hidden', !hasPrompt);
-  document.getElementById('instHint').classList.toggle('is-hidden', hasPrompt);
+  document.getElementById('instPrimary').classList.toggle('is-hidden', !deferredInstall);
 }
 
 function openInstall(){
   if(isInstalledMode()) return;
+  hideInstallBanner();
   renderInstallGuide();
   document.getElementById('instModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -604,45 +763,47 @@ function closeInstall(){
   document.body.style.overflow = '';
 }
 
-function installApp(){
-  // مسار Chromium (أندرويد + كمبيوتر): نافذة التثبيت الأصلية إن توفرت
-  if(deferredInstall && !isInstalledMode()){
-    const ev = deferredInstall;
-    deferredInstall = null;
-    closeInstall();
-    try{
-      ev.prompt();
-      ev.userChoice.then(choice => {
-        if(choice && choice.outcome === 'accepted') markInstalled();
-      }).catch(() => {});
-    }catch(err){
-      openInstall();          // إن تعذّر العرض الأصلي نعود للإرشادات
-    }
-    return;
+/* ── التثبيت ── */
+function installNow(){
+  if(!deferredInstall){ renderInstallGuide(); return; }
+  const ev = deferredInstall;
+  deferredInstall = null;
+  try{
+    ev.prompt();
+    ev.userChoice.then(choice => {
+      if(choice && choice.outcome === 'accepted') markInstalled();
+    }).catch(() => {});
+  }catch(err){
+    renderInstallGuide();     // إن تعذّر العرض الأصلي نبقى على الخطوات
   }
-  // iOS وSafari والكمبيوتر بدون حدث أصلي: إرشادات التثبيت
-  openInstall();
 }
 
+function installApp(){
+  if(deferredInstall) installNow();   // أندرويد / كمبيوتر Chromium
+  else openInstall();                 // آيفون / Safari / متصفحات بلا حدث أصلي
+}
+
+/* ── الأحداث ── */
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   if(isInstalledMode()) return;
   deferredInstall = e;
-  const btn = document.getElementById('btnInstall');
-  if(btn) btn.classList.remove('is-hidden');
+  showInstallBanner();                // أظهر اللافتة فور توفّر التثبيت
 });
 
 window.addEventListener('appinstalled', markInstalled);
 
-window.addEventListener('DOMContentLoaded', refreshInstallBtn);
-refreshInstallBtn();
+window.addEventListener('DOMContentLoaded', syncInstalledState);
+syncInstalledState();
+
+// إظهار اللافتة تلقائيًا بعد ثانيتين ونصف (وعلى iOS حيث لا يوجد حدث أصلي)
+setTimeout(showInstallBanner, 2500);
 
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeInstall(); });
 document.addEventListener('click', e => {
-  if(e.target.closest('#instPrimary')) installApp();
   if(e.target.closest('[data-close-install]')) closeInstall();
 });
-try{ window.matchMedia('(display-mode: standalone)').addEventListener('change', refreshInstallBtn); }catch(e){}
+try{ window.matchMedia('(display-mode: standalone)').addEventListener('change', syncInstalledState); }catch(e){}
 </script>
 <script>
 if ('serviceWorker' in navigator) {
