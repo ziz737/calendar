@@ -193,23 +193,21 @@ tailwind.config = {
 <!-- ═══ Sticky toolbar ═══ -->
 <div class="tbar no-print sticky top-0 z-40">
   <div class="max-w-[1400px] mx-auto px-3 sm:px-6 py-2.5">
-    <div class="tb-scroll items-center justify-between">
-      <h2 class="text-sm sm:text-base font-black whitespace-nowrap" style="color:var(--navy)">التقويم الدراسي لعام 1448هـ</h2>
-      <div class="flex items-center gap-2">
-        <button id="btnInstall" class="tb-btn gold" onclick="installApp()" title="تثبيت التطبيق على جهازك"><i class="fa-solid fa-download"></i> تثبيت التطبيق</button>
-        <button id="btnPassed" class="tb-btn active" onclick="togglePassed(this)"><i class="fa-solid fa-eye"></i> إظهار الأسابيع المنتهية</button>
-      </div>
-    </div>
+    <h2 class="text-sm sm:text-base font-black text-center whitespace-nowrap" style="color:var(--navy)">التقويم الدراسي لعام 1448هـ</h2>
   </div>
 </div>
 
-<!-- ═══ Level banner ═══ -->
+<!-- ═══ Level banner + actions ═══ -->
 <section class="max-w-[1400px] mx-auto px-3 sm:px-6 mt-5 sm:mt-7">
   <div class="rounded-2xl overflow-hidden border border-line bg-white anim" style="animation-delay:.14s">
     <div class="text-white text-center font-black text-sm">
       <div class="py-2.5 px-4" style="background:linear-gradient(135deg,var(--teal),#0b8f8c)">
         الفصل الدراسي الأول
       </div>
+    </div>
+    <div class="no-print flex flex-wrap items-center justify-center gap-2 px-3 py-3">
+      <button id="btnInstall" class="tb-btn gold w-full sm:w-auto justify-center" onclick="installApp()" title="تثبيت التطبيق على جهازك"><i class="fa-solid fa-download"></i> تثبيت التطبيق</button>
+      <button id="btnPassed" class="tb-btn active w-full sm:w-auto justify-center" onclick="togglePassed(this)"><i class="fa-solid fa-eye"></i> إظهار الأسابيع المنتهية</button>
     </div>
   </div>
 </section>
