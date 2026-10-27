@@ -88,58 +88,61 @@ tailwind.config = {
   .tb-scroll{ display:flex; gap:.5rem; overflow-x:auto; padding-bottom:2px; scrollbar-width:none; }
   .tb-scroll::-webkit-scrollbar{ display:none; }
 
-  /* ===== PWA install ===== */
-  .is-hidden{ display:none !important; }
+  /* ===== INSTALL (على طريقة مشروع sh) ===== */
+  .install-banner{ position:fixed; bottom:0; left:0; right:0; z-index:9000;
+    background:rgba(255,255,255,.97); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    border-top:2px solid var(--gold); padding:1.1rem 1.25rem;
+    padding-bottom:calc(1.1rem + env(safe-area-inset-bottom)); display:none;
+    box-shadow:0 -8px 40px rgba(0,0,0,.12); animation:bannerUp .45s cubic-bezier(.22,1,.36,1); }
+  .install-banner.show{ display:block; }
+  @keyframes bannerUp{ from{ transform:translateY(100%); opacity:0 } to{ transform:none; opacity:1 } }
+  .install-banner-inner{ max-width:1100px; margin:0 auto; display:flex; align-items:center; gap:14px; }
+  .install-icon{ width:52px; height:52px; border-radius:14px; flex:none; display:flex; align-items:center; justify-content:center;
+    background:#f3f7f8; border:1px solid var(--line); }
+  .install-icon img{ width:36px; height:36px; border-radius:9px; object-fit:cover; }
+  .install-text{ flex:1; min-width:0; }
+  .install-text h4{ font-size:.95rem; font-weight:900; color:var(--navy); margin:0 0 2px; }
+  .install-text p{ font-size:.78rem; font-weight:600; color:var(--muted); margin:0; line-height:1.4; }
+  .install-btn{ flex:none; padding:10px 24px; border:none; border-radius:12px; cursor:pointer;
+    font-family:inherit; font-size:.9rem; font-weight:900; color:var(--navy-dk); white-space:nowrap;
+    background:linear-gradient(135deg,#c1b489,#d8cdb0); box-shadow:0 4px 14px rgba(193,180,137,.45); transition:.25s; }
+  .install-btn:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(193,180,137,.55); }
+  .install-close{ position:absolute; top:10px; inset-inline-start:10px; width:30px; height:30px; border:none; background:none;
+    color:#9aa9b1; font-size:1.2rem; cursor:pointer; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+  .install-close:hover{ background:#f3f4f6; color:var(--muted); }
 
-  /* لافتة التثبيت السفلية */
-  .inst-banner{ position:fixed; z-index:85; inset-inline:.75rem; bottom:calc(.75rem + env(safe-area-inset-bottom));
-    max-width:26rem; margin-inline:auto; display:flex; align-items:center; gap:.65rem; padding:.65rem .7rem;
-    border-radius:1rem; color:#fff; background:linear-gradient(135deg,#15445a,#0f3647);
-    box-shadow:0 18px 40px -14px rgba(14,47,63,.6), inset 0 0 0 1px rgba(255,255,255,.08);
-    animation:bannerIn .3s ease both; }
-  @keyframes bannerIn{ from{ transform:translateY(22px); opacity:0 } to{ transform:none; opacity:1 } }
-  .inst-banner img{ width:42px; height:42px; border-radius:.7rem; flex:none; }
-  .inst-banner .txt{ flex:1; min-width:0; }
-  .inst-banner .txt strong{ display:block; font-size:.78rem; font-weight:900; }
-  .inst-banner .txt span{ display:block; font-size:.64rem; font-weight:700; color:rgba(255,255,255,.6); margin-top:.1rem; }
-  .inst-banner .go{ flex:none; font-family:inherit; font-size:.74rem; font-weight:900; color:var(--navy-dk);
-    background:linear-gradient(135deg,#c1b489,#d8cdb0); border:none; border-radius:.7rem; padding:.5rem .85rem; cursor:pointer; }
-  .inst-banner .x{ flex:none; width:1.7rem; height:1.7rem; border-radius:.5rem; background:rgba(255,255,255,.1);
-    border:1px solid rgba(255,255,255,.14); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:.75rem; }
-  body.inst-banner-on{ padding-bottom:5.75rem; }
-
-  /* نافذة تعليمات التثبيت */
-  .inst-modal{ position:fixed; inset:0; z-index:90; display:none; align-items:flex-end; justify-content:center; }
-  .inst-modal.open{ display:flex; }
-  .inst-backdrop{ position:absolute; inset:0; background:rgba(14,47,63,.62); }
-  .inst-card{ position:relative; width:100%; max-width:27rem; max-height:92vh; overflow:auto; background:#fff;
-              border-radius:1.25rem 1.25rem 0 0; animation:sheetUp .26s ease both; }
-  @keyframes sheetUp{ from{ transform:translateY(16px); opacity:0; } to{ transform:none; opacity:1; } }
-  .inst-x{ position:absolute; top:.6rem; inset-inline-end:.6rem; width:1.9rem; height:1.9rem; border-radius:.55rem;
-    background:#f1f5f7; border:1px solid var(--line); color:var(--navy); cursor:pointer;
-    display:flex; align-items:center; justify-content:center; z-index:2; }
-  .inst-head{ text-align:center; padding:1.15rem 1rem .85rem; background:linear-gradient(180deg,#f4f8fa,#fff); border-bottom:1px solid var(--line); }
-  .inst-head img{ display:block; margin:0 auto .55rem; border-radius:1rem; box-shadow:0 10px 22px -12px rgba(21,68,90,.55); }
-  .inst-head h3{ font-size:.95rem; font-weight:900; color:var(--navy); }
-  .inst-head p{ font-size:.7rem; font-weight:700; color:var(--muted); margin-top:.2rem; }
-  .inst-step{ display:flex; gap:.7rem; align-items:flex-start; padding:.7rem 1rem; border-bottom:1px dashed #e6edf1; }
-  .inst-step:last-child{ border-bottom:none; }
-  .inst-num{ width:1.7rem; height:1.7rem; border-radius:999px; background:var(--navy); color:#fff; font-size:.78rem;
-    font-weight:900; display:flex; align-items:center; justify-content:center; flex:none; }
-  .inst-step .txt{ display:flex; flex-direction:column; gap:.12rem; }
-  .inst-step .txt b{ font-size:.8rem; font-weight:900; color:var(--ink); }
-  .inst-step .txt span{ font-size:.72rem; font-weight:600; color:var(--muted); line-height:1.65; }
-  .inst-foot{ display:flex; flex-direction:column; gap:.5rem; padding:.85rem 1rem calc(.9rem + env(safe-area-inset-bottom));
-              border-top:1px solid var(--line); background:#fff; }
-  .inst-btn{ font-family:inherit; min-height:46px; border-radius:.85rem; font-weight:900; font-size:.85rem; cursor:pointer; border:none; }
-  .inst-btn.primary{ color:#fff; background:linear-gradient(135deg,var(--green-dk),var(--green)); }
-  .inst-btn.ghost{ color:var(--navy); background:#fff; border:1px solid var(--line); }
-  .inst-warn{ display:flex; gap:.5rem; align-items:flex-start; padding:.7rem 1rem; background:#fff7e6; color:#8a6d3b;
-              font-size:.72rem; font-weight:700; border-bottom:1px solid #f0e3c3; }
-  @media (min-width:640px){
-    .inst-modal{ align-items:center; padding:1rem; }
-    .inst-card{ border-radius:1.25rem; box-shadow:0 26px 70px -26px rgba(14,47,63,.7); }
-    .inst-foot{ padding-bottom:.85rem; }
+  /* ===== iOS INSTALL OVERLAY ===== */
+  .ios-overlay{ position:fixed; inset:0; z-index:10001; background:rgba(0,0,0,.6); backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px); display:none; align-items:flex-end; justify-content:center; animation:fadeIn .3s ease; }
+  .ios-overlay.show{ display:flex; }
+  @keyframes fadeIn{ from{opacity:0} to{opacity:1} }
+  .ios-overlay-box{ background:#fff; border-radius:20px 20px 0 0; width:100%; max-width:420px;
+    padding:1.4rem 1.4rem calc(1.4rem + env(safe-area-inset-bottom)); animation:bannerUp .4s cubic-bezier(.22,1,.36,1); }
+  .ios-overlay-header{ text-align:center; margin-bottom:1.2rem; }
+  .ios-overlay-header h3{ font-size:1.05rem; font-weight:900; color:var(--navy); margin:0 0 .25rem; }
+  .ios-overlay-header p{ font-size:.82rem; color:var(--muted); margin:0; }
+  .ios-step{ display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid #f3f4f6; }
+  .ios-step:last-of-type{ border-bottom:none; }
+  .ios-step-num{ width:34px; height:34px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center;
+    color:var(--navy-dk); font-weight:900; font-size:.88rem; background:linear-gradient(135deg,#c1b489,#d8cdb0); }
+  .ios-step-text{ flex:1; }
+  .ios-step-text strong{ display:block; font-size:.88rem; font-weight:800; color:var(--navy); margin-bottom:2px; }
+  .ios-step-text span{ font-size:.76rem; color:var(--muted); }
+  .ios-step-icon{ width:38px; height:38px; flex:none; display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
+  .ios-safari-bar{ margin:1.1rem auto 0; background:#f2f2f7; border-radius:12px; padding:10px 16px;
+    display:flex; align-items:center; justify-content:space-between; max-width:340px; }
+  .ios-share-highlight{ display:inline-flex; animation:sharePulse 1.5s ease-in-out infinite; }
+  @keyframes sharePulse{ 0%,100%{ transform:scale(1) } 50%{ transform:scale(1.15) } }
+  .ios-overlay-close{ display:block; width:100%; margin-top:1rem; padding:13px; border:none; border-radius:12px;
+    background:#f3f4f6; font-family:inherit; font-size:.92rem; font-weight:800; color:var(--muted); cursor:pointer; }
+  .ios-overlay-close:active{ background:#e5e7eb; }
+  @media (max-width:500px){
+    .install-banner{ padding:.95rem 1rem; padding-bottom:calc(.95rem + env(safe-area-inset-bottom)); }
+    .install-icon{ width:44px; height:44px; border-radius:12px; }
+    .install-icon img{ width:30px; height:30px; }
+    .install-text h4{ font-size:.88rem; }
+    .install-text p{ font-size:.72rem; }
+    .install-btn{ padding:9px 16px; font-size:.82rem; }
   }
 
   /* ===== Stat cards ===== */
@@ -253,7 +256,6 @@ tailwind.config = {
     .wk, .brk, .stat{ box-shadow:none !important; transform:none !important; break-inside:avoid; }
     .wk.fade-dim{ opacity:1 !important; filter:none !important; }
     .wk.is-passed{ display:block !important; opacity:1 !important; }
-    body.inst-banner-on{ padding-bottom:0 !important; }
     .today-flag{ animation:none !important; background:none !important; color:#fff !important; text-shadow:none !important; }
     main{ display:block !important; }
     .wk, .brk{ margin-bottom:10px; }
@@ -328,42 +330,67 @@ tailwind.config = {
   <noscript><a href="https://www.freecounterstat.com" title="hit counter" rel="noopener"><img src="https://counter6.optistats.ovh/private/freecounterstat.php?c=fq8m7kgsmjjxp5qraujuhwbbqtj6s1kc" border="0" title="hit counter" alt="hit counter"></a></noscript>
 </footer>
 
-<!-- ═══ Install banner ═══ -->
-<div id="instBanner" class="inst-banner no-print is-hidden" role="region" aria-label="تثبيت التطبيق">
-  <img src="./icon-192.png" alt="">
-  <div class="txt">
-    <strong>تثبيت التقويم الدراسي</strong>
-    <span>أضفه لشاشتك للوصول السريع وبدون إنترنت</span>
+<!-- ═══ INSTALL BANNER (على طريقة مشروع sh) ═══ -->
+<div class="install-banner no-print" id="install-banner">
+  <button class="install-close" id="install-close" aria-label="إغلاق">&times;</button>
+  <div class="install-banner-inner">
+    <div class="install-icon"><img src="./icon-192.png" alt="التقويم الدراسي"></div>
+    <div class="install-text">
+      <h4>تثبيت التقويم الدراسي</h4>
+      <p>أضفه لشاشتك للوصول السريع بدون إنترنت</p>
+    </div>
+    <button class="install-btn" id="install-btn">تثبيت</button>
   </div>
-  <button type="button" class="go" onclick="installApp()">تثبيت</button>
-  <button type="button" class="x" onclick="dismissBanner()" aria-label="لاحقًا"><i class="fa-solid fa-xmark"></i></button>
 </div>
 
-<!-- ═══ Install instructions sheet (Android / iOS / Desktop) ═══ -->
-<div id="instModal" class="inst-modal no-print" role="dialog" aria-modal="true" aria-labelledby="instTitle">
-  <div class="inst-backdrop" data-close-install></div>
-  <div class="inst-card" role="document">
-    <button type="button" class="inst-x" data-close-install aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
-
-    <div class="inst-head">
-      <img src="./icon-192.png" alt="" width="56" height="56">
-      <h3 id="instTitle">تثبيت «التقويم الدراسي»</h3>
-      <p id="instSub">أضفه إلى شاشتك للوصول السريع</p>
+<!-- ═══ iOS INSTALL OVERLAY ═══ -->
+<div class="ios-overlay no-print" id="ios-overlay">
+  <div class="ios-overlay-box">
+    <div class="ios-overlay-header">
+      <h3>تثبيت التقويم الدراسي على الشاشة</h3>
+      <p>اتبع الخطوات البسيطة التالية</p>
     </div>
 
-    <div id="instWarn" class="inst-warn is-hidden">
-      <i class="fa-solid fa-triangle-exclamation" style="margin-top:.15rem"></i>
-      <span>التثبيت متاح عند فتح التطبيق عبر HTTPS أو localhost فقط، وليس عند فتح الملف من الجهاز مباشرة.</span>
+    <div class="ios-step">
+      <div class="ios-step-num">1</div>
+      <div class="ios-step-text">
+        <strong>اضغط زر المشاركة</strong>
+        <span>الزر أسفل الشاشة في متصفح Safari</span>
+      </div>
+      <div class="ios-step-icon ios-share-highlight" style="color:#007AFF;">
+        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+      </div>
     </div>
 
-    <div id="instSteps"></div>
-
-    <div class="inst-foot">
-      <button id="instPrimary" type="button" class="inst-btn primary is-hidden" onclick="installNow()">
-        <i class="fa-solid fa-download"></i> تثبيت الآن
-      </button>
-      <button id="instDone" type="button" class="inst-btn ghost" data-close-install>حسنًا، فهمت</button>
+    <div class="ios-step">
+      <div class="ios-step-num">2</div>
+      <div class="ios-step-text">
+        <strong>«إضافة إلى الشاشة الرئيسية»</strong>
+        <span>اسحب القائمة واخترها</span>
+      </div>
+      <div class="ios-step-icon" style="color:#007AFF;">
+        <i class="fa-solid fa-square-plus"></i>
+      </div>
     </div>
+
+    <div class="ios-step">
+      <div class="ios-step-num">3</div>
+      <div class="ios-step-text">
+        <strong>اضغط «إضافة»</strong>
+        <span>في الزاوية العلوية</span>
+      </div>
+      <div class="ios-step-icon" style="color:#07a869;">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+    </div>
+
+    <div class="ios-safari-bar">
+      <i class="fa-solid fa-chevron-left" style="color:#007AFF;"></i>
+      <span id="ios-host" style="font-size:.8rem;color:#333;font-weight:600;">الموقع</span>
+      <span class="ios-share-highlight" style="color:#007AFF;"><i class="fa-solid fa-arrow-up-from-bracket"></i></span>
+    </div>
+
+    <button class="ios-overlay-close" id="ios-overlay-close">فهمت!</button>
   </div>
 </div>
 
@@ -685,182 +712,93 @@ if (document.readyState === 'loading') document.addEventListener('DOMContentLoad
 else init();
 </script>
 <script>
-/* ══════════ PWA INSTALL — أندرويد / آيفون / كمبيوتر ══════════ */
-let deferredInstall = null;               // حدث التثبيت الأصلي (Chromium)
-/* داخل تطبيق أندرويد (WebView) لا معنى للافتة التثبيت */
-const IS_NATIVE_APP = (function(){
-  try{ return !!(window.AndroidApp && window.AndroidApp.isApp && window.AndroidApp.isApp()); }
-  catch(e){ return false; }
-})();
-const INSTALL_SNOOZE_KEY = 'tas_install_snooze_at';
-const INSTALL_SNOOZE_DAYS = 7;
+/* ══════════ INSTALL PROMPT — على طريقة مشروع sh ══════════ */
+(function(){
+  var banner     = document.getElementById('install-banner');
+  var installBtn = document.getElementById('install-btn');
+  var closeBtn   = document.getElementById('install-close');
+  var iosOverlay = document.getElementById('ios-overlay');
+  var iosClose   = document.getElementById('ios-overlay-close');
+  if(!banner || !installBtn || !closeBtn || !iosOverlay || !iosClose) return;
 
-const INSTALL_GUIDE = {
-  android: { name:'أندرويد', steps:[
-    ['افتح قائمة المتصفح ⋮', 'من أعلى الشاشة في Chrome أو Edge.'],
-    ['اختر «تثبيت التطبيق»', 'أو «إضافة إلى الشاشة الرئيسية» إن ظهر الخيار.'],
-    ['أكّد «تثبيت»', 'تظهر أيقونة التطبيق على شاشتك وتعمل بدون إنترنت.']
-  ]},
-  ios: { name:'الآيفون / الآيباد', steps:[
-    ['اضغط زر المشاركة', 'الزر أسفل الشاشة في متصفح Safari.'],
-    ['اختر «إضافة إلى الشاشة الرئيسية»', 'اسحب القائمة لأسفل حتى تجدها.'],
-    ['اضغط «إضافة»', 'في الزاوية العلوية؛ يصبح التطبيق أيقونة مستقلة.']
-  ]},
-  desktop: { name:'الكمبيوتر', steps:[
-    ['اضغط أيقونة التثبيت', 'في يمين شريط عنوان Chrome أو Edge.'],
-    ['أو من قائمة ⋮', 'اختر «تثبيت التقويم الدراسي».'],
-    ['Safari على Mac', 'من قائمة File اختر Add to Dock.']
-  ]}
-};
-
-function installPlatform(){
-  const ua = navigator.userAgent || '';
-  const iPadOS = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
-  if(/iPad|iPhone|iPod/.test(ua) || iPadOS) return 'ios';
-  if(/Android/i.test(ua)) return 'android';
-  return 'desktop';
-}
-
-function isInstalledMode(){
+  var DISMISS_KEY = 'cal_install_dismissed';
+  var DONE_KEY    = 'cal_install_done';
+  var deferredPrompt = null;
+  var dismissed = false, done = false;
   try{
-    const modes = ['standalone','fullscreen','minimal-ui','window-controls-overlay'];
-    if(modes.some(m => window.matchMedia('(display-mode: ' + m + ')').matches)) return true;
+    dismissed = localStorage.getItem(DISMISS_KEY) === '1';
+    done      = localStorage.getItem(DONE_KEY) === '1';
   }catch(e){}
-  return window.navigator.standalone === true;   // iOS
-}
+  if(done) return;
 
-function syncInstalledState(){
-  if(isInstalledMode()) hideInstallBanner();
-}
+  var ua = navigator.userAgent || '';
+  var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
+                  || window.navigator.standalone === true;
 
-function markInstalled(){
-  closeInstall();
-  hideInstallBanner();
-  try{ localStorage.removeItem(INSTALL_SNOOZE_KEY); }catch(e){}
-}
-
-/* ── لافتة التثبيت ── */
-function bannerAllowed(){
-  if(isInstalledMode()) return false;
-  try{
-    const t = Number(localStorage.getItem(INSTALL_SNOOZE_KEY) || 0);
-    return !t || (Date.now() - t) > INSTALL_SNOOZE_DAYS * 86400000;
-  }catch(e){ return true; }
-}
-
-function showInstallBanner(){
-  if(!bannerAllowed()) return;
-  const b = document.getElementById('instBanner');
-  if(!b) return;
-  b.classList.remove('is-hidden');
-  document.body.classList.add('inst-banner-on');
-}
-
-function hideInstallBanner(){
-  const b = document.getElementById('instBanner');
-  if(b) b.classList.add('is-hidden');
-  document.body.classList.remove('inst-banner-on');
-}
-
-function dismissBanner(){
-  hideInstallBanner();
-  try{ localStorage.setItem(INSTALL_SNOOZE_KEY, String(Date.now())); }catch(e){}
-}
-
-/* ── نافذة الخطوات ── */
-function renderInstallGuide(){
-  const g = INSTALL_GUIDE[installPlatform()];
-  document.getElementById('instSub').textContent = 'التثبيت على ' + g.name;
-  document.getElementById('instSteps').innerHTML = g.steps.map(([t,d],i) =>
-    `<div class="inst-step"><span class="inst-num">${i+1}</span><div class="txt"><b>${t}</b><span>${d}</span></div></div>`
-  ).join('');
-
-  // تنبيه عند فتح الملف مباشرة أو عبر HTTP (شرطا عدم توفر التثبيت)
-  const secure = location.protocol === 'https:' ||
-                 location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-  document.getElementById('instWarn').classList.toggle('is-hidden', secure);
-
-  document.getElementById('instPrimary').classList.toggle('is-hidden', !deferredInstall);
-}
-
-function openInstall(){
-  if(isInstalledMode()) return;
-  hideInstallBanner();
-  renderInstallGuide();
-  document.getElementById('instModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeInstall(){
-  const m = document.getElementById('instModal');
-  if(!m) return;
-  m.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-/* ── التثبيت ── */
-function promptInstall(ev){
-  deferredInstall = null;
-  try{
-    ev.prompt();                        // مربّع التثبيت الأصلي في أندرويد
-    ev.userChoice.then(choice => {
-      if(choice && choice.outcome === 'accepted') markInstalled();
-    }).catch(() => {});
-  }catch(err){
-    openInstall();                      // لو رفض المتصفح العرض نعود للخطوات
+  if(isStandalone){
+    try{ localStorage.setItem(DONE_KEY, '1'); }catch(e){}
+    return;
   }
-}
 
-function installNow(){
-  if(deferredInstall) promptInstall(deferredInstall);
-  else renderInstallGuide();
-}
+  var hostEl = document.getElementById('ios-host');
+  var host = (location.hostname || '').replace(/^www\./, '');
+  if(hostEl && host) hostEl.textContent = host;
 
-/* ينشئ وعدًا يُحلّ عند وصول حدث التثبيت (لمتصفحات Chromium) */
-let installWaiters = [];
-function waitForInstallPrompt(ms){
-  if(deferredInstall) return Promise.resolve(deferredInstall);
-  return new Promise(resolve => {
-    const timer = setTimeout(() => { installWaiters = installWaiters.filter(w => w !== done); resolve(null); }, ms);
-    const done = ev => { clearTimeout(timer); resolve(ev); };
-    installWaiters.push(done);
+  function showBanner(){ if(dismissed) return; banner.classList.add('show'); }
+  function hideBanner(){ banner.classList.remove('show'); }
+  function dismiss(){
+    hideBanner();
+    dismissed = true;
+    try{ localStorage.setItem(DISMISS_KEY, '1'); }catch(e){}
+  }
+
+  /* أندرويد + كمبيوتر: يظهر الزر بعد توفّر حدث التثبيت */
+  window.addEventListener('beforeinstallprompt', function(e){
+    e.preventDefault();
+    deferredPrompt = e;
+    setTimeout(showBanner, 2000);
   });
-}
 
-async function installApp(){
-  if(IS_NATIVE_APP) return;                       // داخل تطبيق أندرويد لا لزوم له
-  if(deferredInstall){ promptInstall(deferredInstall); return; }
+  /* آيفون: لا يوجد حدث أصلي، تظهر اللافتة بعد 3 ثوانٍ */
+  if(isIOS) setTimeout(showBanner, 3000);
 
-  // أندرويد/كمبيوتر: انتظر حدث التثبيت لحظةً قبل عرض أي شرح
-  if(installPlatform() !== 'ios'){
-    const ev = await waitForInstallPrompt(3000);
-    if(ev){ promptInstall(ev); return; }
-  }
-  openInstall();                                   // iOS أو متصفح لا يدعم التثبيت
-}
+  installBtn.addEventListener('click', function(){
+    if(deferredPrompt){
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function(choice){
+        if(choice && choice.outcome === 'accepted'){
+          try{ localStorage.setItem(DONE_KEY, '1'); }catch(e){}
+          hideBanner();
+        }
+        deferredPrompt = null;
+      }).catch(function(){ deferredPrompt = null; });
+    } else if(isIOS){
+      hideBanner();
+      iosOverlay.classList.add('show');
+    }
+  });
 
-/* ── الأحداث ── */
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  if(isInstalledMode()) return;
-  deferredInstall = e;
-  installWaiters.splice(0).forEach(w => w(e));     // أي طلب تثبيت كان ينتظر
-  showInstallBanner();                              // أظهر اللافتة فور توفّر التثبيت
-});
+  closeBtn.addEventListener('click', dismiss);
 
-window.addEventListener('appinstalled', markInstalled);
+  iosClose.addEventListener('click', function(){
+    iosOverlay.classList.remove('show');
+    dismiss();
+  });
 
-window.addEventListener('DOMContentLoaded', syncInstalledState);
-syncInstalledState();
+  iosOverlay.addEventListener('click', function(e){
+    if(e.target === iosOverlay){
+      iosOverlay.classList.remove('show');
+      dismiss();
+    }
+  });
 
-// إظهار اللافتة تلقائيًا بعد ثانيتين ونصف (وعلى iOS حيث لا يوجد حدث أصلي)
-setTimeout(showInstallBanner, 2500);
-
-document.addEventListener('keydown', e => { if(e.key === 'Escape') closeInstall(); });
-document.addEventListener('click', e => {
-  if(e.target.closest('[data-close-install]')) closeInstall();
-});
-try{ window.matchMedia('(display-mode: standalone)').addEventListener('change', syncInstalledState); }catch(e){}
+  window.addEventListener('appinstalled', function(){
+    try{ localStorage.setItem(DONE_KEY, '1'); }catch(e){}
+    hideBanner();
+    iosOverlay.classList.remove('show');
+  });
+})();
 </script>
 <script>
 if ('serviceWorker' in navigator) {
