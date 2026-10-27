@@ -197,8 +197,8 @@ tailwind.config = {
   .today-flag{ display:inline-block; flex:none; font-size:.7rem; font-weight:900; line-height:1.5; margin-inline:auto;
                padding:0; border:0; background:none; color:#fff; text-shadow:none;
                animation:flagPulse 1.6s ease-in-out infinite; }
-  /* ملاحظة (إجازة إضافية): تتوسط المساحة المتبقية مثل كلمة اليوم */
-  .cell-day .note-extra{ margin-inline:auto; flex:none; }
+  /* ملاحظات اليوم (إجازة إضافية / الاختبارات): تتوسط المساحة المتبقية مثل كلمة اليوم */
+  .cell-day .note-extra, .cell-day .note-exam{ margin-inline:auto; flex:none; }
   @keyframes flagPulse{
     0%, 100%{ color:#ffffff; text-shadow:0 0 0 rgba(255,255,255,0); transform:scale(1); }
     50%     { color:#ff8a80; text-shadow:0 0 10px rgba(255,138,128,.9); transform:scale(1.12); }
@@ -447,7 +447,7 @@ function dayRow(d, i, w){
   const cls = flag==='national' ? 'row-national hl-national' : flag==='extra' ? 'row-extra hl-extra' : '';
   const dotColor = flag==='extra' ? 'background:#c1b489;box-shadow:0 0 0 3px rgba(193,180,137,.2)'
                  : flag==='exam'  ? 'background:#3d7eb9;box-shadow:0 0 0 3px rgba(61,126,185,.18)' : '';
-  const noteHtml = note ? `<span class="text-[10px] font-bold ${flag==='extra'?'note-extra':'mr-1'}" style="${flag==='national'?'color:#fff':flag==='extra'?'color:#a8916a':flag==='exam'?'color:#3d7eb9':'color:#6b8593'}">${flag==='exam'?'':(flag==='national'?'★ ':'')}${esc(note)}</span>` : '';
+  const noteHtml = note ? `<span class="text-[10px] font-bold ${flag==='extra'?'note-extra':flag==='exam'?'note-exam':'mr-1'}" style="${flag==='national'?'color:#fff':flag==='extra'?'color:#a8916a':flag==='exam'?'color:#3d7eb9':'color:#6b8593'}">${flag==='exam'?'':(flag==='national'?'★ ':'')}${esc(note)}</span>` : '';
   return `<div class="day-row ${cls}" data-greg="${gregFull}">
     <div class="cell-day"><span class="day-dot" style="${dotColor}"></span>${esc(day)}${noteHtml}</div>
     <div class="cell-hijri">${esc(hijriFull)}</div>
