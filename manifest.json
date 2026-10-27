@@ -1,18 +1,31 @@
 {
-  "name": "التقويم الدراسي",
+  "id": "./",
+  "name": "التقويم الدراسي 1448 هـ",
   "short_name": "التقويم الدراسي",
-  "description": "التقويم الدراسي السعودي 1448 هـ — الفصل الدراسي الأول",
+  "description": "التقويم الدراسي السعودي 1448 هـ — الفصل الدراسي الأول، مع الأسابيع والإجازات والإحصائيات.",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
   "orientation": "portrait",
   "background_color": "#15445a",
   "theme_color": "#15445a",
+  "categories": ["education", "productivity"],
+  "prefer_related_applications": false,
   "icons": [
     { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
     { "src": "./icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "عرض التقويم",
+      "short_name": "التقويم",
+      "description": "الانتقال مباشرة إلى شبكة الأسابيع",
+      "url": "./index.html#cal",
+      "icons": [{ "src": "./icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
   ]
 }

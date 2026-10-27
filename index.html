@@ -79,6 +79,30 @@ tailwind.config = {
   .tb-scroll{ display:flex; gap:.5rem; overflow-x:auto; padding-bottom:2px; scrollbar-width:none; }
   .tb-scroll::-webkit-scrollbar{ display:none; }
 
+  /* ===== PWA install ===== */
+  .tb-btn.gold{ background:linear-gradient(135deg,#c1b489,#d8cdb0); color:var(--navy-dk); border-color:#b7a97e; }
+  .tb-btn.gold:hover{ background:linear-gradient(135deg,#b7a97e,#c1b489); color:var(--navy-dk); border-color:var(--gold-dk); }
+  .is-hidden{ display:none !important; }
+
+  .inst-modal{ position:fixed; inset:0; z-index:90; display:none; align-items:flex-end; justify-content:center; }
+  .inst-modal.open{ display:flex; }
+  .inst-backdrop{ position:absolute; inset:0; background:rgba(14,47,63,.62); }
+  .inst-card{ position:relative; width:100%; max-width:27rem; max-height:92vh; overflow:auto; background:#fff;
+              border-radius:1.25rem 1.25rem 0 0; animation:sheetUp .26s ease both; }
+  @keyframes sheetUp{ from{ transform:translateY(16px); opacity:0; } to{ transform:none; opacity:1; } }
+  .inst-step{ display:flex; gap:.65rem; align-items:flex-start; padding:.62rem 1rem; border-bottom:1px dashed #e0e9ee;
+              font-size:.78rem; font-weight:700; line-height:1.75; color:var(--ink); }
+  .inst-step:last-child{ border-bottom:none; }
+  .inst-step b{ color:var(--navy); font-weight:900; }
+  .inst-num{ width:1.45rem; height:1.45rem; border-radius:999px; background:var(--navy); color:#fff; font-size:.7rem;
+             font-weight:900; display:flex; align-items:center; justify-content:center; flex:none; margin-top:.18rem; }
+  .inst-foot{ padding:.85rem 1rem calc(.85rem + env(safe-area-inset-bottom)); border-top:1px solid var(--line); background:var(--bg); }
+  @media (min-width:640px){
+    .inst-modal{ align-items:center; padding:1rem; }
+    .inst-card{ border-radius:1.25rem; box-shadow:0 26px 70px -26px rgba(14,47,63,.7); }
+    .inst-foot{ padding-bottom:.85rem; }
+  }
+
   /* ===== Stat cards ===== */
   .stat{ background:#fff; border:1px solid var(--line); border-radius:1.1rem; padding:1rem; display:flex; align-items:center; gap:.85rem; }
   .stat .ico{ width:48px;height:48px;border-radius:.9rem; display:flex;align-items:center;justify-content:center; font-size:1.25rem; flex:none; }
@@ -158,6 +182,7 @@ tailwind.config = {
     .wrap{ max-width:100% !important; padding:0 !important; }
     .wk, .brk, .stat{ box-shadow:none !important; transform:none !important; break-inside:avoid; }
     .wk.fade-dim{ opacity:1 !important; filter:none !important; }
+    .wk.is-passed{ display:block !important; opacity:1 !important; }
     main{ display:block !important; }
     .wk, .brk{ margin-bottom:10px; }
   }
@@ -170,7 +195,10 @@ tailwind.config = {
   <div class="max-w-[1400px] mx-auto px-3 sm:px-6 py-2.5">
     <div class="tb-scroll items-center justify-between">
       <h2 class="text-sm sm:text-base font-black whitespace-nowrap" style="color:var(--navy)">التقويم الدراسي لعام 1448هـ</h2>
-      <button id="btnPassed" class="tb-btn" onclick="togglePassed(this)"><i class="fa-solid fa-eye-slash"></i> الأسابيع المنتهية</button>
+      <div class="flex items-center gap-2">
+        <button id="btnInstall" class="tb-btn gold" onclick="installApp()" title="تثبيت التطبيق على جهازك"><i class="fa-solid fa-download"></i> تثبيت التطبيق</button>
+        <button id="btnPassed" class="tb-btn active" onclick="togglePassed(this)"><i class="fa-solid fa-eye"></i> إظهار الأسابيع المنتهية</button>
+      </div>
     </div>
   </div>
 </div>
@@ -221,6 +249,37 @@ tailwind.config = {
     </div>
   </div>
 </main>
+
+<!-- ═══ Install sheet (Android / iOS / Desktop) ═══ -->
+<div id="instModal" class="inst-modal no-print" role="dialog" aria-modal="true" aria-labelledby="instTitle">
+  <div class="inst-backdrop" data-close-install></div>
+  <div class="inst-card">
+    <div style="background:linear-gradient(135deg,var(--navy),var(--navy-dk));color:#fff;display:flex;align-items:center;gap:.65rem;padding:.8rem .9rem">
+      <img src="./icon-192.png" alt="" width="36" height="36" style="border-radius:.7rem;flex:none">
+      <div style="flex:1;min-width:0">
+        <h3 id="instTitle" style="font-weight:900;font-size:.9rem;margin:0">تثبيت «التقويم الدراسي»</h3>
+        <p id="instSub" style="font-size:.68rem;font-weight:700;color:rgba(255,255,255,.62);margin:.12rem 0 0">يعمل بدون إنترنت بعد التثبيت</p>
+      </div>
+      <button type="button" data-close-install aria-label="إغلاق" style="width:2rem;height:2rem;border-radius:.6rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div id="instWarn" class="is-hidden" style="display:flex;gap:.5rem;align-items:flex-start;padding:.7rem 1rem;background:#fff7e6;color:#8a6d3b;font-size:.72rem;font-weight:700;border-bottom:1px solid #f0e3c3">
+      <i class="fa-solid fa-triangle-exclamation" style="margin-top:.15rem"></i>
+      <span>التثبيت متاح عند فتح التطبيق عبر HTTPS أو localhost فقط، وليس عند فتح الملف من الجهاز مباشرة.</span>
+    </div>
+
+    <div id="instSteps"></div>
+
+    <div class="inst-foot">
+      <button id="instPrimary" type="button" class="is-hidden" style="width:100%;min-height:46px;border-radius:.85rem;border:none;font-family:inherit;font-weight:900;font-size:.85rem;color:#fff;background:linear-gradient(135deg,var(--green-dk),var(--green));cursor:pointer">
+        <i class="fa-solid fa-download"></i> تثبيت الآن
+      </button>
+      <p id="instHint" style="font-size:.7rem;font-weight:700;color:var(--muted);text-align:center;margin:0">أكمل الخطوات أعلاه لإضافة التطبيق إلى جهازك.</p>
+    </div>
+  </div>
+</div>
 
 <script>
 /* ══════════ DATA ══════════ */
@@ -430,26 +489,162 @@ function updateWeekStatuses(){
 }
 
 /* ══════════ CONTROLS ══════════ */
-function toggleHL(type, btn){
-  const sel = type==='national' ? '.hl-national' : '.hl-extra';
-  const on = !btn.classList.contains('active');
-  document.querySelectorAll(sel).forEach(el => el.classList.toggle('fade-dim', on));
-  btn.classList.toggle('active', on);
-}
-
-let passedHidden = false;
-function togglePassed(btn){
-  passedHidden = !passedHidden;
+/* الافتراضي: الأسابيع المنتهية مخفية، والزر يكشفها عند الضغط */
+let passedHidden = true;
+function applyPassed(){
   document.querySelectorAll('.wk.is-passed').forEach(el => el.style.display = passedHidden ? 'none' : '');
+  const btn = document.getElementById('btnPassed');
+  if(!btn) return;
   btn.classList.toggle('active', passedHidden);
   btn.innerHTML = passedHidden
-    ? '<i class="fa-solid fa-eye"></i> إظهار المنتهية'
-    : '<i class="fa-solid fa-eye-slash"></i> الأسابيع المنتهية';
+    ? '<i class="fa-solid fa-eye"></i> إظهار الأسابيع المنتهية'
+    : '<i class="fa-solid fa-eye-slash"></i> إخفاء الأسابيع المنتهية';
+}
+function togglePassed(btn){
+  passedHidden = !passedHidden;
+  applyPassed();
 }
 
 /* ══════════ INIT ══════════ */
 render();
-window.addEventListener('DOMContentLoaded', () => { updateHeader(); updateWeekStatuses(); });
+function init(){
+  updateHeader();
+  updateWeekStatuses();
+  applyPassed();          // يُطبّق الإخفاء الافتراضي فور تحديد الأسابيع المنتهية
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+else init();
+</script>
+<script>
+/* ══════════ PWA INSTALL — أندرويد / آيفون / كمبيوتر ══════════ */
+let deferredInstall = null;   // حدث التثبيت الأصلي (Chromium: أندرويد + كمبيوتر)
+
+const INSTALL_GUIDE = {
+  android: {
+    title: 'التثبيت على أندرويد',
+    steps: [
+      'افتح هذه الصفحة في <b>Google Chrome</b> أو <b>Microsoft Edge</b>.',
+      'اضغط قائمة المتصفح <b>⋮</b> أعلى يسار الشاشة.',
+      'اختر <b>«تثبيت التطبيق»</b> أو <b>«إضافة إلى الشاشة الرئيسية»</b>.',
+      'أكّد <b>«تثبيت»</b>؛ ستظهر أيقونة التطبيق على شاشتك الرئيسية وتعمل بدون إنترنت.'
+    ]
+  },
+  ios: {
+    title: 'التثبيت على الآيفون / الآيباد',
+    steps: [
+      'افتح هذه الصفحة في متصفح <b>Safari</b> (التثبيت لا يتم من متصفحات أخرى على iOS).',
+      'اضغط زر المشاركة <i class="fa-solid fa-arrow-up-from-bracket"></i> في شريط الأدوات أسفل الشاشة.',
+      'اختر <b>«إضافة إلى الشاشة الرئيسية»</b> <i class="fa-solid fa-square-plus"></i>.',
+      'اضغط <b>«إضافة»</b> أعلى الشاشة؛ يصبح التطبيق أيقونة مستقلة تعمل بدون إنترنت.'
+    ]
+  },
+  desktop: {
+    title: 'التثبيت على الكمبيوتر',
+    steps: [
+      'افتح هذه الصفحة في <b>Chrome</b> أو <b>Edge</b>.',
+      'اضغط أيقونة التثبيت <i class="fa-solid fa-download"></i> في يمين شريط العنوان.',
+      'أو من قائمة <b>⋮</b> اختر <b>«تثبيت التقويم الدراسي»</b>.',
+      'على <b>Safari (Mac)</b>: من قائمة <b>File</b> اختر <b>Add to Dock</b>.'
+    ]
+  }
+};
+
+function installPlatform(){
+  const ua = navigator.userAgent || '';
+  const iPadOS = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+  if(/iPad|iPhone|iPod/.test(ua) || iPadOS) return 'ios';
+  if(/Android/i.test(ua)) return 'android';
+  return 'desktop';
+}
+
+function isInstalledMode(){
+  try{
+    const modes = ['standalone','fullscreen','minimal-ui','window-controls-overlay'];
+    if(modes.some(m => window.matchMedia('(display-mode: ' + m + ')').matches)) return true;
+  }catch(e){}
+  return window.navigator.standalone === true;   // iOS
+}
+
+function refreshInstallBtn(){
+  const btn = document.getElementById('btnInstall');
+  if(btn) btn.classList.toggle('is-hidden', isInstalledMode());
+}
+
+function markInstalled(){
+  closeInstall();
+  const btn = document.getElementById('btnInstall');
+  if(btn) btn.classList.add('is-hidden');
+}
+
+function renderInstallGuide(){
+  const g = INSTALL_GUIDE[installPlatform()];
+  document.getElementById('instSub').textContent = g.title;
+  document.getElementById('instSteps').innerHTML =
+    g.steps.map((s,i) => `<div class="inst-step"><span class="inst-num">${i+1}</span><span>${s}</span></div>`).join('');
+
+  // تنبيه عند فتح الملف مباشرة أو عبر HTTP (شرطا عدم توفر التثبيت)
+  const secure = location.protocol === 'https:' ||
+                 location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  document.getElementById('instWarn').classList.toggle('is-hidden', secure);
+
+  const hasPrompt = !!deferredInstall;
+  document.getElementById('instPrimary').classList.toggle('is-hidden', !hasPrompt);
+  document.getElementById('instHint').classList.toggle('is-hidden', hasPrompt);
+}
+
+function openInstall(){
+  if(isInstalledMode()) return;
+  renderInstallGuide();
+  document.getElementById('instModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeInstall(){
+  const m = document.getElementById('instModal');
+  if(!m) return;
+  m.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function installApp(){
+  // مسار Chromium (أندرويد + كمبيوتر): نافذة التثبيت الأصلية إن توفرت
+  if(deferredInstall && !isInstalledMode()){
+    const ev = deferredInstall;
+    deferredInstall = null;
+    closeInstall();
+    try{
+      ev.prompt();
+      ev.userChoice.then(choice => {
+        if(choice && choice.outcome === 'accepted') markInstalled();
+      }).catch(() => {});
+    }catch(err){
+      openInstall();          // إن تعذّر العرض الأصلي نعود للإرشادات
+    }
+    return;
+  }
+  // iOS وSafari والكمبيوتر بدون حدث أصلي: إرشادات التثبيت
+  openInstall();
+}
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  if(isInstalledMode()) return;
+  deferredInstall = e;
+  const btn = document.getElementById('btnInstall');
+  if(btn) btn.classList.remove('is-hidden');
+});
+
+window.addEventListener('appinstalled', markInstalled);
+
+window.addEventListener('DOMContentLoaded', refreshInstallBtn);
+refreshInstallBtn();
+
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeInstall(); });
+document.addEventListener('click', e => {
+  if(e.target.closest('#instPrimary')) installApp();
+  if(e.target.closest('[data-close-install]')) closeInstall();
+});
+try{ window.matchMedia('(display-mode: standalone)').addEventListener('change', refreshInstallBtn); }catch(e){}
 </script>
 <script>
 if ('serviceWorker' in navigator) {
