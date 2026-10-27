@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#15445a">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/png" href="./favicon-32.png">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="التقويم الدراسي">
+<title>التقويم الدراسي 1448 / 1449 هـ — الفصل الدراسي الأول | الأستاذ عبدالعزيز الحودي</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        moe: { 900:'#0e2f3f', 800:'#15445a', 700:'#1d556f', 600:'#3d7eb9', 500:'#4d94cf' },
+        grn: { 700:'#058a56', 600:'#07a869', 500:'#2cbd82', 100:'#e4f7ee' },
+        tea: { 600:'#0da9a6', 500:'#3ec3c0', 100:'#e2f7f7' },
+        gld: { 600:'#a8916a', 500:'#c1b489', 400:'#d8cdb0', 100:'#f5f1e6' },
+        gry: { 500:'#c2c1c1', 300:'#e2e3e4', 100:'#f4f6f7' },
+        muted: '#6b8593',
+        line: '#e3eaee'
+      },
+      fontFamily: { readex:['Readex Pro','sans-serif'], sans:['Readex Pro','sans-serif'] }
+    }
+  }
+}
+</script>
+<style>
+  :root{
+    --navy:#15445a; --navy-dk:#0e2f3f; --green:#07a869; --green-dk:#058a56;
+    --teal:#0da9a6; --blue:#3d7eb9; --gold:#c1b489; --gold-dk:#a8916a;
+    --gray:#c2c1c1; --ink:#153a49; --muted:#6b8593; --line:#e3eaee; --bg:#eef3f6;
+    --grn-100:#e4f7ee; --tea-100:#e2f7f7; --gld-100:#f5f1e6;
+  }
+  *{ -webkit-tap-highlight-color:transparent; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:'Readex Pro','Cairo','Tajawal',sans-serif; color:var(--ink);
+    background:
+      radial-gradient(900px 400px at 92% -12%, rgba(13,169,166,.10), transparent 60%),
+      radial-gradient(800px 380px at 4% -6%, rgba(193,180,137,.14), transparent 55%),
+      var(--bg);
+    -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important;
+  }
+  ::-webkit-scrollbar{ width:9px; height:9px; }
+  ::-webkit-scrollbar-track{ background:#e3eaee; }
+  ::-webkit-scrollbar-thumb{ background:var(--navy); border-radius:9px; }
+
+  /* ===== Kingdom strip ===== */
+  .kstrip{ background:var(--navy-dk); color:#cfe0e8; }
+  .kstrip .dot{ width:7px;height:7px;border-radius:99px;background:var(--green);box-shadow:0 0 0 3px rgba(7,168,105,.25); }
+
+  /* ===== Header ===== */
+  .hero{ background:linear-gradient(135deg,#15445a 0%,#123a4d 55%,#0e2f3f 100%); position:relative; overflow:hidden; }
+  .hero .rings{ position:absolute; inset:0; opacity:.5; pointer-events:none; }
+  .hero .glow{ position:absolute; border-radius:99px; filter:blur(60px); pointer-events:none; }
+
+  /* ===== Live chips ===== */
+  .chip{ background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.16); backdrop-filter:blur(8px); }
+  .chip-gold{ background:linear-gradient(135deg,#c1b489,#d8cdb0); color:var(--navy-dk); border:none; }
+
+  /* ===== Toolbar ===== */
+  .tbar{ background:rgba(255,255,255,.96); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+  .tb-btn{ display:inline-flex; align-items:center; gap:.5rem; font-weight:800; font-size:.8rem;
+    padding:.6rem .95rem; border-radius:.85rem; border:1px solid var(--line); background:#fff; color:var(--navy);
+    transition:.2s; white-space:nowrap; min-height:42px; }
+  .tb-btn:hover{ border-color:var(--teal); color:var(--teal); transform:translateY(-1px); }
+  .tb-btn.active{ background:var(--navy); color:#fff; border-color:var(--navy); }
+  .tb-scroll{ display:flex; gap:.5rem; overflow-x:auto; padding-bottom:2px; scrollbar-width:none; }
+  .tb-scroll::-webkit-scrollbar{ display:none; }
+
+  /* ===== Stat cards ===== */
+  .stat{ background:#fff; border:1px solid var(--line); border-radius:1.1rem; padding:1rem; display:flex; align-items:center; gap:.85rem; }
+  .stat .ico{ width:48px;height:48px;border-radius:.9rem; display:flex;align-items:center;justify-content:center; font-size:1.25rem; flex:none; }
+
+  /* ===== Week card ===== */
+  .wk{ background:#fff; border:1px solid var(--line); border-radius:1.15rem; overflow:hidden;
+       transition:transform .25s ease, box-shadow .25s ease; position:relative; }
+  .wk:hover{ transform:translateY(-3px); box-shadow:0 18px 40px -18px rgba(21,68,90,.35); }
+  .wk-accent{ height:5px; background:linear-gradient(90deg,var(--green),var(--teal) 55%,var(--blue)); }
+  .wk-accent.slate{ background:linear-gradient(90deg,#7d94a1,#b6c5cd); }
+  .wk-accent.gold{ background:linear-gradient(90deg,var(--gold-dk),var(--gold)); }
+  .wk-accent.red{ background:linear-gradient(90deg,#d9534f,#e8836b); }
+  .wk-head{ display:flex; align-items:center; justify-content:space-between; gap:.6rem; padding:.85rem .95rem .5rem; }
+  .wk-num{ width:44px;height:44px;border-radius:.9rem; display:flex;align-items:center;justify-content:center;
+           font-weight:900; font-size:1.05rem; color:#fff; background:var(--navy); flex:none; box-shadow:0 8px 18px -8px rgba(21,68,90,.6); }
+  .wk-num.grn{ background:linear-gradient(135deg,var(--green-dk),var(--green)); }
+  .wk-num.red{ background:linear-gradient(135deg,#d9534f,#e8836b); }
+  .wk-title{ font-weight:900; font-size:.98rem; color:var(--ink); line-height:1.2; }
+  .wk-sub{ font-size:.7rem; font-weight:700; color:var(--muted); }
+  .wk-sub.grn{ color:var(--green-dk); } .wk-sub.gold{ color:var(--gold-dk); } .wk-sub.blue{ color:var(--blue); }
+  .wk-badge{ font-size:.66rem; font-weight:900; padding:.28rem .6rem; border-radius:99px; white-space:nowrap; }
+  .b-wait{ background:var(--gld-100,#f5f1e6); color:var(--gold-dk); border:1px solid #e6dcc3; }
+  .b-now{ background:linear-gradient(135deg,var(--green-dk),var(--green)); color:#fff; box-shadow:0 6px 16px -6px rgba(7,168,105,.7); animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite; }
+  .b-end{ background:#eef1f3; color:#9aa9b1; }
+  .wk-month{ margin:0 .95rem .55rem; padding:.4rem .7rem; border-radius:.7rem; background:var(--bg);
+             display:flex; justify-content:space-between; font-size:.7rem; font-weight:800; color:var(--navy); }
+  .wk-month span:last-child{ color:var(--muted); }
+
+  /* ===== Day rows (days on the RIGHT) ===== */
+  .days{ border-top:1px solid var(--line); }
+  .day-row{ display:flex; align-items:stretch; border-bottom:1px dashed #e0e9ee; }
+  .day-row:last-child{ border-bottom:none; }
+  .cell-day{ flex:1.6; padding:.55rem .7rem; font-weight:800; font-size:.82rem; color:var(--ink);
+             display:flex; align-items:center; gap:.45rem; }
+  .cell-hijri{ flex:1; padding:.55rem .3rem; text-align:center; font-weight:700; font-size:.78rem;
+               color:var(--muted); border-inline:1px dashed #e0e9ee; display:flex; align-items:center; justify-content:center; }
+  .cell-greg{ flex:.9; padding:.55rem .3rem; text-align:center; font-weight:800; font-size:.8rem; color:var(--navy); direction:ltr; }
+  .day-dot{ width:8px;height:8px;border-radius:99px;background:var(--green); flex:none; box-shadow:0 0 0 3px rgba(7,168,105,.15); }
+
+  .day-row.row-national{ background:linear-gradient(90deg,#058a56,#07a869); }
+  .day-row.row-national .cell-day,.day-row.row-national .cell-hijri,.day-row.row-national .cell-greg{ color:#fff; border-color:rgba(255,255,255,.25); }
+  .day-row.row-national .day-dot{ background:#d8cdb0; box-shadow:0 0 0 3px rgba(216,205,176,.3); }
+  .day-row.row-extra{ background:#f7f3e8; }
+  .day-row.row-extra .cell-day{ color:var(--gold-dk); } .day-row.row-extra .cell-hijri{ color:#a8916a; } .day-row.row-extra .cell-greg{ color:var(--gold-dk); }
+  .day-row.row-extra .day-dot{ background:var(--gold); box-shadow:0 0 0 3px rgba(193,180,137,.2); }
+  .day-row.row-today{ background:linear-gradient(90deg,#0da9a6,#3ec3c0); animation:pulse 2s infinite; }
+  .day-row.row-today .cell-day,.day-row.row-today .cell-hijri,.day-row.row-today .cell-greg{ color:#fff; border-color:rgba(255,255,255,.3); }
+  .day-row.row-today .day-dot{ background:#fff; box-shadow:0 0 0 3px rgba(255,255,255,.35); }
+  .today-flag{ font-size:.6rem; background:#fff; color:var(--teal); padding:.05rem .4rem; border-radius:99px; font-weight:900; margin-inline-start:.3rem; }
+  @keyframes pulse{ 0%,100%{opacity:1} 50%{opacity:.82} }
+
+  .wk.fade-dim{ opacity:.3; filter:grayscale(.65); }
+  .wk.is-current{ box-shadow:0 0 0 3px rgba(7,168,105,.35), 0 20px 44px -18px rgba(7,168,105,.45); }
+  .wk.is-passed{ opacity:.82; } .wk.is-passed:hover{ opacity:1; }
+
+  /* ===== Break card ===== */
+  .brk{ background:linear-gradient(150deg,#15445a,#0e2f3f); color:#fff; border-radius:1.15rem; overflow:hidden; }
+  .brk-head{ display:flex; align-items:center; gap:.75rem; padding:.9rem 1rem; border-bottom:1px solid rgba(255,255,255,.1); }
+  .brk .ico{ width:44px;height:44px;border-radius:.9rem; display:flex;align-items:center;justify-content:center; font-size:1.15rem; flex:none; background:rgba(255,255,255,.1); }
+  .brk-line{ display:flex; justify-content:space-between; align-items:center; gap:.5rem; padding:.6rem 1rem; border-bottom:1px solid rgba(255,255,255,.07); font-size:.78rem; font-weight:700; }
+  .brk-line:last-child{ border-bottom:none; }
+  .brk-line strong{ color:var(--gold); font-weight:900; }
+  .brk-line.ret{ background:rgba(255,255,255,.05); }
+
+  /* ===== Entrance ===== */
+  @keyframes up{ from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:none;} }
+  .anim{ animation:up .5s ease both; }
+
+  @media (max-width:380px){
+    .cell-day{ font-size:.76rem; } .cell-hijri{ font-size:.72rem; } .cell-greg{ font-size:.74rem; }
+  }
+
+  /* ===== Print ===== */
+  @media print{
+    .no-print{ display:none !important; }
+    body{ background:#fff !important; }
+    .wrap{ max-width:100% !important; padding:0 !important; }
+    .wk, .brk, .stat{ box-shadow:none !important; transform:none !important; break-inside:avoid; }
+    .wk.fade-dim{ opacity:1 !important; filter:none !important; }
+    main{ display:block !important; }
+    .wk, .brk{ margin-bottom:10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ Sticky toolbar ═══ -->
+<div class="tbar no-print sticky top-0 z-40">
+  <div class="max-w-[1400px] mx-auto px-3 sm:px-6 py-2.5">
+    <div class="tb-scroll items-center justify-between">
+      <h2 class="text-sm sm:text-base font-black whitespace-nowrap" style="color:var(--navy)">التقويم الدراسي لعام 1448هـ</h2>
+      <button id="btnPassed" class="tb-btn" onclick="togglePassed(this)"><i class="fa-solid fa-eye-slash"></i> الأسابيع المنتهية</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Level banner ═══ -->
+<section class="max-w-[1400px] mx-auto px-3 sm:px-6 mt-5 sm:mt-7">
+  <div class="rounded-2xl overflow-hidden border border-line bg-white anim" style="animation-delay:.14s">
+    <div class="text-white text-center font-black text-sm">
+      <div class="py-2.5 px-4" style="background:linear-gradient(135deg,var(--teal),#0b8f8c)">
+        الفصل الدراسي الأول
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Calendar ═══ -->
+<main id="cal" class="wrap max-w-[1400px] mx-auto px-3 sm:px-6 py-5 sm:py-7">
+  <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4"></div>
+
+  <!-- Statistics + Designer -->
+  <div id="stats" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mt-4">
+    <div class="anim bg-white border border-line rounded-2xl overflow-hidden" style="animation-delay:.1s">
+      <div class="px-4 py-3 flex items-center justify-between gap-3 text-white" style="background:linear-gradient(135deg,var(--navy),var(--navy-dk))">
+        <div class="flex items-center gap-2"><i class="fa-solid fa-chart-pie text-gld-500"></i><h3 class="font-black text-sm sm:text-base">إحصائيات الفصل الدراسي الأول</h3></div>
+        <span class="text-[9px] font-bold bg-white/15 rounded-full px-2.5 py-1 hidden sm:inline">يومي / أسبوعي</span>
+      </div>
+      <div class="p-3 grid grid-cols-2 gap-2.5">
+        <div class="rounded-xl p-3 flex flex-col gap-1" style="background:var(--grn-100)"><span class="text-[11px] font-bold" style="color:var(--green-dk)">أسابيع الدراسة</span><span class="text-lg font-black" style="color:var(--green-dk)">19</span></div>
+        <div class="rounded-xl p-3 flex flex-col gap-1" style="background:var(--tea-100)"><span class="text-[11px] font-bold" style="color:#0b8f8c">أيام الدراسة</span><span class="text-lg font-black" style="color:#0b8f8c">93</span></div>
+        <div class="rounded-xl p-3 flex flex-col gap-1" style="background:var(--gld-100)"><span class="text-[11px] font-bold" style="color:var(--gold-dk)">عدد الإجازات</span><span class="text-lg font-black" style="color:var(--gold-dk)">3</span></div>
+        <div class="rounded-xl p-3 flex flex-col gap-1" style="background:var(--gld-100)"><span class="text-[11px] font-bold" style="color:var(--gold-dk)">أيام الإجازات</span><span class="text-lg font-black" style="color:var(--gold-dk)">20</span></div>
+        <div class="col-span-2 rounded-xl p-3 flex items-center justify-between text-white" style="background:var(--navy-dk)">
+          <span class="text-[11px] font-bold">بداية الفصل الدراسي الثاني</span>
+          <span class="text-sm font-black" style="color:var(--gold)">9 / 8 / 1448 هـ</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="anim rounded-2xl overflow-hidden relative" style="animation-delay:.14s">
+      <div class="absolute inset-0" style="background:linear-gradient(140deg,var(--navy),var(--navy-dk))"></div>
+      <div class="absolute -bottom-14 -left-10 w-52 h-52 rounded-full" style="background:rgba(193,180,137,.16);filter:blur(40px)"></div>
+      <div class="relative p-6 text-white text-center flex flex-col justify-center h-full">
+        <div class="w-14 h-14 mx-auto rounded-2xl chip flex items-center justify-center text-xl mb-3"><i class="fa-solid fa-pen-nib" style="color:var(--gold)"></i></div>
+        <h4 class="text-sm font-bold text-tea-500">إعداد وتصميم</h4>
+        <p class="text-xl sm:text-2xl font-black mt-1" style="color:var(--gold)">الأستاذ عبدالعزيز الحودي</p>
+        <p class="text-[11px] font-bold text-white/55 mt-3">جميع الحقوق محفوظة © 1448 هـ — نسخة بتصميم عصري متوافق مع الهوية البصرية لوزارة التعليم</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+/* ══════════ DATA ══════════ */
+const C = { navy:'#15445a', green:'#07a869', teal:'#0da9a6', blue:'#3d7eb9', gold:'#c1b489' };
+
+const WEEKS = [
+  { kind:'special', icon:'chalkboard-user', title:'عودة المعلمين والمعلمات', sub:'المرحلة التمهيدية للفصل', hijri:'ربيع الأول 1448 هـ', greg:'August 2026',
+    start:'2026-08-16', end:'2026-08-20', days:[
+    ['الأحد','3 / 3','16/8'],['الإثنين','3 / 4','17/8'],['الثلاثاء','3 / 5','18/8'],['الأربعاء','3 / 6','19/8'],['الخميس','3 / 7','20/8'] ]},
+
+  { kind:'week', n:1, title:'الأسبوع الأول', hijri:'ربيع الأول 1448 هـ', greg:'August 2026', start:'2026-08-23', end:'2026-08-27', days:[
+    ['الأحد','3 / 10','23/8'],['الإثنين','3 / 11','24/8'],['الثلاثاء','3 / 12','25/8'],['الأربعاء','3 / 13','26/8'],['الخميس','3 / 14','27/8'] ]},
+  { kind:'week', n:2, title:'الأسبوع الثاني', hijri:'ربيع الأول 1448 هـ', greg:'Aug / Sep 2026', start:'2026-08-30', end:'2026-09-03', days:[
+    ['الأحد','3 / 17','30/8'],['الإثنين','3 / 18','31/8'],['الثلاثاء','3 / 19','1/9'],['الأربعاء','3 / 20','2/9'],['الخميس','3 / 21','3/9'] ]},
+  { kind:'week', n:3, title:'الأسبوع الثالث', hijri:'ربيع الأول 1448 هـ', greg:'September 2026', start:'2026-09-06', end:'2026-09-10', days:[
+    ['الأحد','3 / 24','6/9'],['الإثنين','3 / 25','7/9'],['الثلاثاء','3 / 26','8/9'],['الأربعاء','3 / 27','9/9'],['الخميس','3 / 28','10/9'] ]},
+  { kind:'week', n:4, title:'الأسبوع الرابع', hijri:'ربيع الثاني 1448 هـ', greg:'September 2026', start:'2026-09-13', end:'2026-09-17', days:[
+    ['الأحد','4 / 2','13/9'],['الإثنين','4 / 3','14/9'],['الثلاثاء','4 / 4','15/9'],['الأربعاء','4 / 5','16/9'],['الخميس','4 / 6','17/9'] ]},
+  { kind:'week', n:5, title:'الأسبوع الخامس', sub:'إجازة اليوم الوطني', subCls:'grn', hijri:'ربيع الثاني 1448 هـ', greg:'September 2026', start:'2026-09-20', end:'2026-09-24', days:[
+    ['الأحد','4 / 9','20/9'],['الإثنين','4 / 10','21/9'],['الثلاثاء','4 / 11','22/9'],
+    ['الأربعاء','4 / 12','23/9','national','اليوم الوطني'],['الخميس','4 / 13','24/9','national','اليوم الوطني'] ]},
+  { kind:'week', n:6, title:'الأسبوع السادس', hijri:'ربيع الثاني 1448 هـ', greg:'Sep / Oct 2026', start:'2026-09-27', end:'2026-10-01', days:[
+    ['الأحد','4 / 16','27/9'],['الإثنين','4 / 17','28/9'],['الثلاثاء','4 / 18','29/9'],['الأربعاء','4 / 19','30/9'],['الخميس','4 / 20','1/10'] ]},
+  { kind:'week', n:7, title:'الأسبوع السابع', hijri:'ربيع الثاني 1448 هـ', greg:'October 2026', start:'2026-10-04', end:'2026-10-08', days:[
+    ['الأحد','4 / 23','4/10'],['الإثنين','4 / 24','5/10'],['الثلاثاء','4 / 25','6/10'],['الأربعاء','4 / 26','7/10'],['الخميس','4 / 27','8/10'] ]},
+  { kind:'week', n:8, title:'الأسبوع الثامن', hijri:'ربيع 2 / جمادى 1', greg:'October 2026', start:'2026-10-11', end:'2026-10-15', days:[
+    ['الأحد','4 / 30','11/10'],['الإثنين','5 / 1','12/10'],['الثلاثاء','5 / 2','13/10'],['الأربعاء','5 / 3','14/10'],['الخميس','5 / 4','15/10'] ]},
+  { kind:'week', n:9, title:'الأسبوع التاسع', hijri:'جمادى الأولى 1448 هـ', greg:'October 2026', start:'2026-10-18', end:'2026-10-22', days:[
+    ['الأحد','5 / 7','18/10'],['الإثنين','5 / 8','19/10'],['الثلاثاء','5 / 9','20/10'],['الأربعاء','5 / 10','21/10'],['الخميس','5 / 11','22/10'] ]},
+  { kind:'week', n:10, title:'الأسبوع العاشر', sub:'يحتوي إجازة إضافية', subCls:'gold', hijri:'جمادى الأولى 1448 هـ', greg:'October 2026', start:'2026-10-25', end:'2026-10-29', days:[
+    ['الأحد','5 / 14','25/10','extra','إجازة إضافية'],['الإثنين','5 / 15','26/10'],['الثلاثاء','5 / 16','27/10'],['الأربعاء','5 / 17','28/10'],['الخميس','5 / 18','29/10'] ]},
+  { kind:'week', n:11, title:'الأسبوع الحادي عشر', hijri:'جمادى الأولى 1448 هـ', greg:'November 2026', start:'2026-11-01', end:'2026-11-05', days:[
+    ['الأحد','5 / 21','1/11'],['الإثنين','5 / 22','2/11'],['الثلاثاء','5 / 23','3/11'],['الأربعاء','5 / 24','4/11'],['الخميس','5 / 25','5/11'] ]},
+  { kind:'week', n:12, title:'الأسبوع الثاني عشر', hijri:'جمادى أول / ثاني', greg:'November 2026', start:'2026-11-08', end:'2026-11-12', days:[
+    ['الأحد','5 / 28','8/11'],['الإثنين','5 / 29','9/11'],['الثلاثاء','5 / 30','10/11'],['الأربعاء','6 / 1','11/11'],['الخميس','6 / 2','12/11'] ]},
+  { kind:'week', n:13, title:'الأسبوع الثالث عشر', hijri:'جمادى الثاني 1448 هـ', greg:'November 2026', start:'2026-11-15', end:'2026-11-19', days:[
+    ['الأحد','6 / 5','15/11'],['الإثنين','6 / 6','16/11'],['الثلاثاء','6 / 7','17/11'],['الأربعاء','6 / 8','18/11'],['الخميس','6 / 9','19/11'] ]},
+
+  { kind:'break', icon:'cloud-sun', title:'إجازة الخريف', sub:'استراحة خلال الفصل', lines:[
+    ['تبدأ إجازة الخريف','الجمعة 6/10 — 20/11','start'],['تنتهي الإجازة','السبت 6/18 — 28/11','stop'],['العودة للدراسة','الأثنين 6/20 — 30/11','ret'] ]},
+
+  { kind:'week', n:14, title:'الأسبوع الرابع عشر', sub:'يحتوي إجازة إضافية', subCls:'gold', hijri:'جمادى الثاني 1448 هـ', greg:'Nov / Dec 2026', start:'2026-11-29', end:'2026-12-03', days:[
+    ['الأحد','6 / 19','29/11','extra','إجازة إضافية'],['الإثنين','6 / 20','30/11'],['الثلاثاء','6 / 21','1/12'],['الأربعاء','6 / 22','2/12'],['الخميس','6 / 23','3/12'] ]},
+  { kind:'week', n:15, title:'الأسبوع الخامس عشر', hijri:'جمادى الثاني 1448 هـ', greg:'December 2026', start:'2026-12-06', end:'2026-12-10', days:[
+    ['الأحد','6 / 26','6/12'],['الإثنين','6 / 27','7/12'],['الثلاثاء','6 / 28','8/12'],['الأربعاء','6 / 29','9/12'],['الخميس','7 / 1','10/12'] ]},
+  { kind:'week', n:16, title:'الأسبوع السادس عشر', hijri:'رجب 1448 هـ', greg:'December 2026', start:'2026-12-13', end:'2026-12-17', days:[
+    ['الأحد','7 / 4','13/12'],['الإثنين','7 / 5','14/12'],['الثلاثاء','7 / 6','15/12'],['الأربعاء','7 / 7','16/12'],['الخميس','7 / 8','17/12'] ]},
+  { kind:'week', n:17, title:'الأسبوع السابع عشر', hijri:'رجب 1448 هـ', greg:'December 2026', start:'2026-12-20', end:'2026-12-24', days:[
+    ['الأحد','7 / 11','20/12'],['الإثنين','7 / 12','21/12'],['الثلاثاء','7 / 13','22/12'],['الأربعاء','7 / 14','23/12'],['الخميس','7 / 15','24/12'] ]},
+  { kind:'week', n:18, title:'الأسبوع الثامن عشر', hijri:'رجب 1448 هـ', greg:'December 2026', start:'2026-12-27', end:'2026-12-31', days:[
+    ['الأحد','7 / 18','27/12'],['الإثنين','7 / 19','28/12'],['الثلاثاء','7 / 20','29/12'],['الأربعاء','7 / 21','30/12'],['الخميس','7 / 22','31/12'] ]},
+  { kind:'week', n:19, title:'الأسبوع التاسع عشر', sub:'الاختبارات النهائية', subCls:'blue', hijri:'رجب 1448 هـ', greg:'January 2027', start:'2027-01-03', end:'2027-01-07', days:[
+    ['الأحد','7 / 25','3/1','exam','اختبارات'],['الإثنين','7 / 26','4/1','exam','نهاية'],['الثلاثاء','7 / 27','5/1','exam','الفصل'],
+    ['الأربعاء','7 / 28','6/1','exam','الدراسي'],['الخميس','7 / 29','7/1','extra','إجازة إضافية'] ]},
+
+  { kind:'break', icon:'house-chimney-window', title:'إجازة منتصف العام', sub:'استراحة ما بين الفصلين', lines:[
+    ['تبدأ الإجازة','الجمعة 7/30 — 8/1','start'],['تنتهي الإجازة','السبت 8/8 — 16/1','stop'],['العودة للدراسة','الأحد 8/9 — 17/1','ret'] ]}
+];
+
+/* ══════════ RENDER ══════════ */
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function gregYear(start, i){
+  const [y,m,d] = start.split('-').map(Number);
+  return new Date(y, m-1, d+i).getFullYear();
+}
+
+function dayRow(d, i, w){
+  const [day, hijri, greg, flag, note] = d;
+  const gregFull = `${greg}/${w ? gregYear(w.start, i) : 2026}`;
+  const hijriFull = `${hijri.split('/').map(s=>s.trim()).reverse().join('/')}/1448`;
+  const cls = flag==='national' ? 'row-national hl-national' : flag==='extra' ? 'row-extra hl-extra' : '';
+  const dotColor = flag==='extra' ? 'background:#c1b489;box-shadow:0 0 0 3px rgba(193,180,137,.2)'
+                 : flag==='exam'  ? 'background:#3d7eb9;box-shadow:0 0 0 3px rgba(61,126,185,.18)' : '';
+  const noteHtml = note ? `<span class="text-[10px] font-bold mr-1" style="${flag==='national'?'color:#fff':flag==='extra'?'color:#a8916a':flag==='exam'?'color:#3d7eb9':'color:#6b8593'}">${flag==='exam'?'':(flag==='national'?'★ ':'')}${esc(note)}</span>` : '';
+  return `<div class="day-row ${cls}" data-greg="${gregFull}">
+    <div class="cell-day"><span class="day-dot" style="${dotColor}"></span>${esc(day)}${noteHtml}</div>
+    <div class="cell-hijri">${esc(hijriFull)}</div>
+    <div class="cell-greg">${esc(gregFull)}</div>
+  </div>`;
+}
+
+function weekCard(w, delay){
+  const num = w.n;
+  const numCls = w.subCls==='blue' || (w.n===19) ? 'red' : '';
+  const sub = w.sub ? `<p class="wk-sub ${w.subCls||''}">${w.subCls==='gold'?'<i class="fa-solid fa-sun"></i> ':w.subCls==='grn'?'<i class="fa-solid fa-star"></i> ':w.subCls==='blue'?'<i class="fa-solid fa-pen-to-square"></i> ':''}${esc(w.sub)}</p>`
+                    : `<p class="wk-sub">أسبوع دراسي</p>`;
+  return `<article class="wk anim" data-start="${w.start}" data-end="${w.end}" style="animation-delay:${delay}s">
+    <div class="wk-accent ${w.n===19?'red':''}"></div>
+    <div class="wk-head">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="wk-num ${numCls}">${num}</div>
+        <div class="text-right min-w-0">
+          <h3 class="wk-title">${esc(w.title)}</h3>${sub}
+        </div>
+      </div>
+      <span class="wk-badge b-wait week-badge">بقي 0 يوم</span>
+    </div>
+    <div class="wk-month"><span>${esc(w.hijri)}</span><span dir="ltr">${esc(w.greg)}</span></div>
+    <div class="days">${w.days.map((d,i)=>dayRow(d,i,w)).join('')}</div>
+  </article>`;
+}
+
+function specialCard(w, delay){
+  return `<article class="wk anim" data-start="${w.start}" data-end="${w.end}" style="animation-delay:${delay}s">
+    <div class="wk-accent slate"></div>
+    <div class="wk-head">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="wk-num" style="background:linear-gradient(135deg,#5c7480,#7d94a1)"><i class="fa-solid fa-${w.icon}"></i></div>
+        <div class="text-right min-w-0">
+          <h3 class="wk-title">${esc(w.title)}</h3><p class="wk-sub">${esc(w.sub)}</p>
+        </div>
+      </div>
+      <span class="wk-badge b-wait week-badge">بقي 0 يوم</span>
+    </div>
+    <div class="wk-month"><span>${esc(w.hijri)}</span><span dir="ltr">${esc(w.greg)}</span></div>
+    <div class="days">${w.days.map((d,i)=>dayRow(d,i,w)).join('')}</div>
+  </article>`;
+}
+
+function breakCard(w, delay){
+  const lines = w.lines.map(l => {
+    const ico = l[2]==='start' ? '<i class="fa-solid fa-play" style="color:#2cbd82"></i>'
+              : l[2]==='stop'  ? '<i class="fa-solid fa-stop" style="color:#e8836b"></i>'
+              : '<i class="fa-solid fa-rotate-left" style="color:#c1b489"></i>';
+    return `<div class="brk-line ${l[2]==='ret'?'ret':''}"><span>${ico} ${esc(l[0])}</span><strong>${esc(l[1])}</strong></div>`;
+  }).join('');
+  return `<article class="brk anim" style="animation-delay:${delay}s">
+    <div class="brk-head">
+      <div class="ico" style="color:#c1b489"><i class="fa-solid fa-${w.icon}"></i></div>
+      <div><h3 class="font-black text-base">${esc(w.title)}</h3><p class="text-[11px] font-bold text-white/55">${esc(w.sub)}</p></div>
+    </div>${lines}
+  </article>`;
+}
+
+function render(){
+  let html = '';
+  let d = 0.02;
+  WEEKS.forEach(w => {
+    if (w.kind === 'week') html += weekCard(w, d);
+    else if (w.kind === 'special') html += specialCard(w, d);
+    else html += breakCard(w, d);
+    d += 0.03;
+  });
+  document.getElementById('grid').innerHTML = html;
+}
+
+/* ══════════ LIVE DATE ══════════ */
+const AR_DAYS = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const GREG_M = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+
+function updateHeader(){
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  if(!document.getElementById('todayName')) return;
+  document.getElementById('todayName').textContent = AR_DAYS[today.getDay()];
+  document.getElementById('todayGreg').textContent = `${today.getDate()} ${GREG_M[today.getMonth()]} ${today.getFullYear()}`;
+  try{
+    document.getElementById('todayHijri').textContent =
+      new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}).format(today);
+  }catch(e){ document.getElementById('todayHijri').textContent = '1448 هـ'; }
+
+  const end = new Date(2027,0,7); // نهاية الفصل الدراسي الأول
+  const remain = Math.max(0, Math.ceil((end - today)/86400000));
+  document.getElementById('remainingDays').textContent = remain;
+}
+
+/* ══════════ STATUS ══════════ */
+function updateWeekStatuses(){
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const tDay = today.getDate(), tMonth = today.getMonth()+1, tYear = today.getFullYear();
+
+  document.querySelectorAll('.wk').forEach(card => {
+    const s = card.dataset.start, e = card.dataset.end;
+    const badge = card.querySelector('.week-badge');
+    if(!s || !e || !badge) return;
+    const [sy,sm,sd] = s.split('-').map(Number);
+    const [ey,em,ed] = e.split('-').map(Number);
+    const start = new Date(sy,sm-1,sd), end = new Date(ey,em-1,ed);
+    const diff = Math.ceil((start - today)/86400000);
+
+    card.classList.remove('is-current','is-passed');
+
+    if(today >= start && today <= end){
+      badge.textContent = 'الحالي';
+      badge.className = 'wk-badge b-now week-badge';
+      card.classList.add('is-current');
+      card.querySelectorAll('.day-row').forEach(row => {
+        const g = row.dataset.greg; if(!g) return;
+        const [dd,mm,yy] = g.split('/').map(Number);
+        if(dd===tDay && mm===tMonth && yy===tYear){
+          row.classList.add('row-today');
+          const cell = row.querySelector('.cell-day');
+          if(cell && !cell.querySelector('.today-flag')) cell.insertAdjacentHTML('beforeend','<span class="today-flag">اليوم</span>');
+        }
+      });
+    } else if(today < start){
+      badge.textContent = `بقي ${diff} يوم`;
+      badge.className = 'wk-badge b-wait week-badge';
+    } else {
+      badge.textContent = 'انتهى';
+      badge.className = 'wk-badge b-end week-badge';
+      card.classList.add('is-passed');
+    }
+  });
+}
+
+/* ══════════ CONTROLS ══════════ */
+function toggleHL(type, btn){
+  const sel = type==='national' ? '.hl-national' : '.hl-extra';
+  const on = !btn.classList.contains('active');
+  document.querySelectorAll(sel).forEach(el => el.classList.toggle('fade-dim', on));
+  btn.classList.toggle('active', on);
+}
+
+let passedHidden = false;
+function togglePassed(btn){
+  passedHidden = !passedHidden;
+  document.querySelectorAll('.wk.is-passed').forEach(el => el.style.display = passedHidden ? 'none' : '');
+  btn.classList.toggle('active', passedHidden);
+  btn.innerHTML = passedHidden
+    ? '<i class="fa-solid fa-eye"></i> إظهار المنتهية'
+    : '<i class="fa-solid fa-eye-slash"></i> الأسابيع المنتهية';
+}
+
+/* ══════════ INIT ══════════ */
+render();
+window.addEventListener('DOMContentLoaded', () => { updateHeader(); updateWeekStatuses(); });
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
