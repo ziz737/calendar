@@ -657,6 +657,11 @@ else init();
 <script>
 /* ══════════ PWA INSTALL — أندرويد / آيفون / كمبيوتر ══════════ */
 let deferredInstall = null;               // حدث التثبيت الأصلي (Chromium)
+/* داخل تطبيق أندرويد (WebView) لا معنى للافتة التثبيت */
+const IS_NATIVE_APP = (function(){
+  try{ return !!(window.AndroidApp && window.AndroidApp.isApp && window.AndroidApp.isApp()); }
+  catch(e){ return false; }
+})();
 const INSTALL_SNOOZE_KEY = 'tas_install_snooze_at';
 const INSTALL_SNOOZE_DAYS = 7;
 
@@ -764,23 +769,44 @@ function closeInstall(){
 }
 
 /* ── التثبيت ── */
-function installNow(){
-  if(!deferredInstall){ renderInstallGuide(); return; }
-  const ev = deferredInstall;
+function promptInstall(ev){
   deferredInstall = null;
   try{
-    ev.prompt();
+    ev.prompt();                        // مربّع التثبيت الأصلي في أندرويد
     ev.userChoice.then(choice => {
       if(choice && choice.outcome === 'accepted') markInstalled();
     }).catch(() => {});
   }catch(err){
-    renderInstallGuide();     // إن تعذّر العرض الأصلي نبقى على الخطوات
+    openInstall();                      // لو رفض المتصفح العرض نعود للخطوات
   }
 }
 
-function installApp(){
-  if(deferredInstall) installNow();   // أندرويد / كمبيوتر Chromium
-  else openInstall();                 // آيفون / Safari / متصفحات بلا حدث أصلي
+function installNow(){
+  if(deferredInstall) promptInstall(deferredInstall);
+  else renderInstallGuide();
+}
+
+/* ينشئ وعدًا يُحلّ عند وصول حدث التثبيت (لمتصفحات Chromium) */
+let installWaiters = [];
+function waitForInstallPrompt(ms){
+  if(deferredInstall) return Promise.resolve(deferredInstall);
+  return new Promise(resolve => {
+    const timer = setTimeout(() => { installWaiters = installWaiters.filter(w => w !== done); resolve(null); }, ms);
+    const done = ev => { clearTimeout(timer); resolve(ev); };
+    installWaiters.push(done);
+  });
+}
+
+async function installApp(){
+  if(IS_NATIVE_APP) return;                       // داخل تطبيق أندرويد لا لزوم له
+  if(deferredInstall){ promptInstall(deferredInstall); return; }
+
+  // أندرويد/كمبيوتر: انتظر حدث التثبيت لحظةً قبل عرض أي شرح
+  if(installPlatform() !== 'ios'){
+    const ev = await waitForInstallPrompt(3000);
+    if(ev){ promptInstall(ev); return; }
+  }
+  openInstall();                                   // iOS أو متصفح لا يدعم التثبيت
 }
 
 /* ── الأحداث ── */
@@ -788,7 +814,8 @@ window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   if(isInstalledMode()) return;
   deferredInstall = e;
-  showInstallBanner();                // أظهر اللافتة فور توفّر التثبيت
+  installWaiters.splice(0).forEach(w => w(e));     // أي طلب تثبيت كان ينتظر
+  showInstallBanner();                              // أظهر اللافتة فور توفّر التثبيت
 });
 
 window.addEventListener('appinstalled', markInstalled);
